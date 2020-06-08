@@ -7,6 +7,8 @@ const actions = {
       .then(response => {
         const token = response.data.access_token;
         commit('RETRIEVED_TOKEN', token);
+        // add the token to axios Authorization header
+        axios.defaults.headers.Authorization = `Bearer ${token}`;
         dispatch('fetchUser');
       });
   },
