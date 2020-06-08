@@ -17,7 +17,7 @@ class CreateBanksTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug');
-            $table->mediumText('url');
+            $table->mediumText('url')->nullable();
             $table->timestamps();
         });
     }

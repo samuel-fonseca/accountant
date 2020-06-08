@@ -15,6 +15,7 @@ class CreateIncomesTable extends Migration
     {
         Schema::create('incomes', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('user_id');
             $table->uuid('client_id');
             $table->uuid('account_id');
             $table->uuid('category_id')->nullable();
