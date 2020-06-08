@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Expense;
+use App\Http\Controllers\Controller;
+use App\Income;
 use Illuminate\Http\Request;
 
-class ExpenseController extends Controller
+class IncomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class ExpenseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function show(Expense $expense)
+    public function show(Income $income)
     {
         //
     }
@@ -52,10 +53,10 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function edit(Expense $expense)
+    public function edit(Income $income)
     {
         //
     }
@@ -64,10 +65,10 @@ class ExpenseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Expense  $expense
+     * @param  \App\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, Income $income)
     {
         //
     }
@@ -75,10 +76,10 @@ class ExpenseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expense $expense)
+    public function destroy(Income $income)
     {
         //
     }

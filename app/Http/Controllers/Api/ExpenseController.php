@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Bank;
+use App\Http\Controllers\Controller;
+use App\Expense;
 use Illuminate\Http\Request;
 
-class BankController extends Controller
+class ExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class BankController extends Controller
      */
     public function index()
     {
-        //
+        return auth()->user()->expenses;
     }
 
     /**
@@ -41,10 +42,10 @@ class BankController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bank  $bank
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show(Bank $bank)
+    public function show(Expense $expense)
     {
         //
     }
@@ -52,10 +53,10 @@ class BankController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Bank  $bank
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bank $bank)
+    public function edit(Expense $expense)
     {
         //
     }
@@ -64,10 +65,10 @@ class BankController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Bank  $bank
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bank $bank)
+    public function update(Request $request, Expense $expense)
     {
         //
     }
@@ -75,10 +76,10 @@ class BankController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Bank  $bank
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bank $bank)
+    public function destroy(Expense $expense)
     {
         //
     }

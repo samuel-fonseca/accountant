@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Income;
+use App\Http\Controllers\Controller;
+use App\Bank;
 use Illuminate\Http\Request;
 
-class IncomeController extends Controller
+class BankController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +15,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Bank::all();
     }
 
     /**
@@ -35,39 +26,36 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:55',
+            'url' => 'required|max:155',
+        ]);
+
+        $bank = $request->all();
+        $bank['slug'] = strtolower(str_replace(' ', '-', $bank['name']));
+
+        return Bank::create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Income  $income
+     * @param  \App\Bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function show(Income $income)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Income  $income
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Income $income)
-    {
-        //
+        return Bank::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Income  $income
+     * @param  \App\Bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Income $income)
+    public function update(Request $request, Bank $bank)
     {
         //
     }
@@ -75,10 +63,10 @@ class IncomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Income  $income
+     * @param  \App\Bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Income $income)
+    public function destroy(Bank $bank)
     {
         //
     }
