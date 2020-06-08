@@ -12,14 +12,14 @@
           <b-form method="post" @submit.prevent="login">
 
             <b-form-group
-              id="username-label"
+              id="email-label"
               label="Email address:"
-              label-for="username"
+              label-for="email"
               description="We'll never share your email with anyone else."
             >
               <b-form-input
-                id="username"
-                v-model="account.username"
+                id="email"
+                v-model="account.email"
                 type="email"
                 required
                 placeholder="Enter email"
@@ -64,7 +64,7 @@ export default {
     return {
       loading: false,
       account: {
-        username: '',
+        email: '',
         password: '',
       }
     }
@@ -72,7 +72,7 @@ export default {
   methods: {
     login() {
       this.$store.dispatch('loginUser', {
-        username: this.account.username,
+        email: this.account.email,
         password: this.account.password
       })
       .finally(() => {

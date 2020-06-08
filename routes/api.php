@@ -18,6 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:api')->group(function () {
+    Route::resource('/expenses', 'Api\ExpenseController');
+    Route::resource('/incomes', 'Api\IncomeController');
+    Route::resource('/clients', 'Api\ClientController');
+
+    Route::resource('/banks', 'Api\BankController')->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
+
+});
+
 /**
  * Passport Auth Functions
  */

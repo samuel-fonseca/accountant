@@ -1,7 +1,7 @@
 const state = {
   user: {},
-  expenses: {},
-  incomes: {},
+  expenses: [],
+  incomes: [],
   token: null,
 };
 

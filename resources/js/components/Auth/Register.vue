@@ -9,7 +9,7 @@
 
           <hr />
 
-          <b-form @submit="register">
+          <b-form @submit.prevent="register">
 
             <b-row>
               <b-col>
@@ -58,7 +58,7 @@
                   <b-form-input
                     id="password"
                     v-model="account.password"
-                    type="email"
+                    type="password"
                     required
                     placeholder="Enter password"
                   ></b-form-input>
@@ -81,7 +81,7 @@
               </b-col>
             </b-row>
 
-            <b-button variant="primary">Register</b-button> <small class="text-muted">Already have an account? <router-link to="/login">Login to your account.</router-link></small>
+            <b-button type="submit" variant="primary">Register</b-button> <small class="text-muted">Already have an account? <router-link to="/login">Login to your account.</router-link></small>
 
           </b-form>
         </b-card>
@@ -106,7 +106,13 @@ export default {
   },
   methods: {
     register() {
-      return '';
+      this.$store.dispatch('registerUser', this.account)
+        .catch(err => {
+          console.error(err);
+        })
+        .finally(() => {
+          this.$router.push({ name: 'dashboard' });
+        });
     }
   }
 }
