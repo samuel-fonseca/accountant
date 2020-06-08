@@ -29,7 +29,9 @@ instance.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401) {
-      app.$router.push({name: 'login'});
+      if (app.$route.name !== 'login' && app.$route.name !== 'register') {
+        app.$router.push({name: 'login'});
+      }
     } else if (error.response.status === 422) {
       // 
     } else {

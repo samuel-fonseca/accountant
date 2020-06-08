@@ -1,9 +1,14 @@
 <template>
-  <b-container>
+  <b-container class="py-5">
     <b-row class="justify-content-center">
       <b-col sm="12" md="10" lg="6">
 
-        <b-card>
+        <b-card class="shadow-sm border-0">
+          
+          <h2>Account Login</h2>
+
+          <hr />
+
           <b-form method="post" @submit.prevent="login">
 
             <b-form-group
@@ -36,6 +41,7 @@
             </b-form-group>
 
             <b-button type="submit" variant="primary">Login</b-button>
+            <b-button size="sm" variant="link" to="/register">Register for a new account</b-button>
 
           </b-form>
         </b-card>
@@ -65,11 +71,11 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch('attemptLogin', {
+      this.$store.dispatch('loginUser', {
         username: this.account.username,
         password: this.account.password
       })
-      .then(() => {
+      .finally(() => {
         this.$router.push({ name: 'dashboard' })
       });
     }
