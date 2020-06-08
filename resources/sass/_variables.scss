@@ -1,0 +1,38 @@
+$body-bg: #f2f2f2;
+$primary-color: #4E9231;
+$secondary-color: #D6E3D0;
+$success-color: #229054;
+$danger-color: #e8286b;
+$warning-color: #ff9b37;
+$info-color: #7ebcfa;
+$light-color: #eef0f2;
+$dark-color: #353535;
+
+// bootstrap
+$theme-colors: (
+  "primary": $primary-color,
+  "secondary": $secondary-color,
+  "success": $success-color,
+  "danger": $danger-color,
+  "warning": $warning-color,
+  "info": $info-color,
+  "light": $light-color,
+  "dark": $dark-color,
+);
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
