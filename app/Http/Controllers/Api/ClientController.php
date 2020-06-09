@@ -15,17 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return auth()->user()->clients;
     }
 
     /**
@@ -36,7 +26,21 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'firstname' => 'required|max:55',
+            'lastname' => 'required|max:55',
+            'phone' => 'required|max:55',
+            'email' => 'required|email',
+            'address' => 'required|max:125',
+            'city' => 'required|max:125',
+            'state' => 'required|max:2',
+            'zip' => 'required|max:5',
+        ]);
+
+        $client = $request->all();
+        $client['user_id'] = auth()->user()->id;
+
+        return Client::create($client);
     }
 
     /**
@@ -45,9 +49,9 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show($id)
     {
-        //
+        return auth()->user()->clients;
     }
 
     /**

@@ -16,6 +16,11 @@
         <incomes-overview></incomes-overview>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col>
+        <clients></clients>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -23,11 +28,13 @@
 import { mapGetters } from 'vuex';
 import ExpensesOverview from './ExpensesOverview';
 import IncomesOverview from './IncomesOverview';
+import Clients from '@components/Clients/All';
 
 export default {
   components: {
     ExpensesOverview,
     IncomesOverview,
+    Clients,
   },
   computed: {
     ...mapGetters([

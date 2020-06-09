@@ -11,6 +11,10 @@ const getters = {
     return state.incomes;
   },
 
+  clients: state => {
+    return state.clients;
+  },
+
   token: state => {
     return state.token;
   },

@@ -53,6 +53,20 @@ const actions = {
       });
   },
 
+  async fetchClients({commit}) {
+    return await axios.get('/clients')
+      .then(res => {
+        commit('RETRIVED_CLIENTS', res.data);
+      });
+  },
+
+  async createClient({commit}, client) {
+    return await axios.post('/clients')
+      .then(res => {
+        commit('NEW_CLIENT', res.data);
+      });
+  },
+
 };
 
 export default actions;

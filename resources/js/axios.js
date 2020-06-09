@@ -30,6 +30,7 @@ instance.interceptors.response.use(
   error => {
     if (error.response.status === 401) {
       if (app.$route.name !== 'login' && app.$route.name !== 'register') {
+        // localStorage.removeItem('token');
         app.$router.push({name: 'login'});
       }
     } else if (error.response.status === 422) {

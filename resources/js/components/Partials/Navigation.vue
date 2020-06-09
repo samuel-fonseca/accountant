@@ -1,10 +1,17 @@
 <template>
-  <b-navbar type="light" variant="light" class="shadow">
+  <b-navbar toggleable="lg" type="light" variant="light" class="shadow">
     <b-navbar-brand to="dashboard">Accountant</b-navbar-brand>
     
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav v-if="loggedIn">
+        <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+        <b-nav-item to="/clients">Clients</b-nav-item>
+        <b-nav-item to="/expenses">Expenses</b-nav-item>
+        <b-nav-item to="/incomes">Income</b-nav-item>
+      </b-navbar-nav>
+
       <b-navbar-nav class="ml-auto" v-if="loggedIn">
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->

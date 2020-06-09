@@ -15,13 +15,15 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('user_id');
             // contact
-            $table->string('name');
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('email');
             $table->string('phone');
             // address
             $table->string('address');
-            $table->string('address2');
+            $table->string('address2')->nullable();
             $table->string('city');
             $table->string('state');
             $table->string('zip');
