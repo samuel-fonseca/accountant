@@ -29,6 +29,9 @@ const actions = {
       .then(response => {
         const user = response.data;
         commit('RETRIEVED_USER', user);
+      })
+      .catch(() => {
+        commit('LOGOUT_USER');
       });
   },
 

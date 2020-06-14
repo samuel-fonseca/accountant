@@ -3,6 +3,14 @@ const getters = {
     return state.user;
   },
 
+  authenticated: state => {
+    return state.authenticated;
+  },
+
+  token: state => {
+    return state.token;
+  },
+
   expenses: state => {
     return state.expenses;
   },
@@ -13,10 +21,6 @@ const getters = {
 
   clients: state => {
     return state.clients;
-  },
-
-  token: state => {
-    return state.token;
   },
 };
 

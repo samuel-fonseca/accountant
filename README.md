@@ -1,6 +1,6 @@
 # Accountant
 
-Accountant is a web app built with Laravel and VueJS which aims to make accounting for self-employed people to track expenses and income.
+🧮 Accountant is a web app built with Laravel and VueJS which aims to make accounting for self-employed people easy to track expenses and income.
 
 ## Install
 
@@ -22,9 +22,15 @@ user@machine % php artisan serve
 ## To-do
 
 - [x] Authentication
+- [x] API OAuth Authentication
 - [ ] API routes
-- [ ] Web routes
+- [x] Web routes - Laravel
+- [ ] Web routes - Vue-Router
 - [ ] Adding expenses & incomes
+- [ ] Invoicing ability
+- [ ] Improve frontend theme
+- [ ] PWA Support
+- [ ] Dark mode?
 - [ ] Possibly connecting to banks to fetch data?
 
 More detailed to-dos as I get into the project and its nitty-gritty needs.

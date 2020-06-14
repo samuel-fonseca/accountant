@@ -1,9 +1,10 @@
 const state = {
   user: {},
+  token: null,
+  authenticated: false,
   expenses: [],
   incomes: [],
   clients: [],
-  token: null,
 };
 
 export default state;

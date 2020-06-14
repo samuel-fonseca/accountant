@@ -55,11 +55,6 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  mounted() {
-    if (localStorage.token) {
-      this.$router.push({ name: 'dashboard' });
-    }
-  },
   data() {
     return {
       loading: false,
@@ -81,8 +76,13 @@ export default {
     }
   },
   computed: {
+    redirectAuth() {
+      if (this.authenticated) {
+        this.$router.push({ name: 'dashboard' });
+      }
+    },
     ...mapGetters([
-      'token'
+      'authenticated'
     ])
   }
 }
