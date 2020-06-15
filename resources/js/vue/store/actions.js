@@ -2,6 +2,7 @@ import axios from '@/axios';
 
 const actions = {
 
+  // User Account
   async loginUser ({commit, dispatch}, credentials) {
     return await axios.post('/login', credentials)
       .then(response => {
@@ -42,6 +43,7 @@ const actions = {
       });
   },
 
+  // Expenses
   async fetchExpenses({commit}) {
     return await axios.get('/expenses')
       .then(res => {
@@ -49,6 +51,7 @@ const actions = {
       });
   },
 
+  // Income
   async fetchIncomes({commit}) {
     return await axios.get('/incomes')
       .then(res => {
@@ -56,6 +59,7 @@ const actions = {
       });
   },
 
+  // Clients
   async fetchClients({commit}) {
     return await axios.get('/clients')
       .then(res => {
@@ -64,9 +68,38 @@ const actions = {
   },
 
   async createClient({commit}, client) {
-    return await axios.post('/clients')
+    return await axios.post('/clients', client)
       .then(res => {
         commit('NEW_CLIENT', res.data);
+      });
+  },
+
+  async updateClient({commit}, client) {
+    return await axios.put('/clients', client)
+      .then(res => {
+        commit('UPDATED_CLIENT', res.data);
+      });
+  },
+
+  // Invoices
+  async fetchInvoices({commit}) {
+    return await axios.get('/invoices')
+      .then(res => {
+        commit('RETRIVED_INVOICES', res.data);
+      });
+  },
+
+  async createInvoice({commit}, invoice) {
+    return await axios.post('/invoices', invoice)
+      .then(res => {
+        commit('NEW_INVOICE', res.data);
+      });
+  },
+
+  async updateInvoice({commit}, invoice) {
+    return await axios.put('/invoices', invoice)
+      .then(res => {
+        commit('UPDATED_INVOICE', res.data);
       });
   },
 

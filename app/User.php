@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'address', 'city', 'state', 'zip', 'country', 'billing_address', 'billing_city', 'billing_state', 'billing_zip', 'billing_country',
     ];
 
     /**
@@ -38,6 +38,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice');
+    }
+
+    public function clients()
+    {
+        return $this->hasMany('App\Client');
+    }
 
     public function expenses()
     {

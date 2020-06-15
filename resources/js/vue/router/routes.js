@@ -8,6 +8,9 @@ import DashboardIndex from '@components/Dashboard/Index';
 // Clients
 import Clients from '@components/Clients/Index';
 import ClientCreate from '@components/Clients/Create';
+
+import Invoices from '@components/Invoices/Index';
+import InvoiceCreate from '@components/Invoices/Create';
 // Expenses
 // import Expenses from '@components/Expenses/Index';
 
@@ -32,14 +35,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
-    meta: {},
+    component: Login
   },
   {
     path: '/register',
     name: 'register',
-    component: Register,
-    meta: {},
+    component: Register
   },
   {
     path: '/dashboard',
@@ -59,6 +60,20 @@ const routes = [
       path: 'create',
       name: 'clients.create',
       component: ClientCreate
+    }],
+  },
+  {
+    path: '/invoices',
+    component: RouterView,
+    beforeEnter: multiguard([isAuthenticated]),
+    children: [{
+      path: '',
+      name: 'invoices.home',
+      component: Invoices,
+    }, {
+      path: 'create',
+      name: 'invoices.create',
+      component: InvoiceCreate
     }],
   },
 

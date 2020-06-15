@@ -1,7 +1,10 @@
 <template>
   <div>
     <navigation></navigation>
-    <router-view></router-view>
+
+    <!-- <transition enter-active-class="animated fadeIn animate__faster"> -->
+      <router-view></router-view>
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -28,7 +31,3 @@ export default {
   ])
 }
 </script>
-
-<style>
-
-</style>

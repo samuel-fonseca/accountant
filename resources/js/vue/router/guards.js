@@ -1,11 +1,10 @@
 import store from '@/vue/store/index';
 
+// const user = store.getters.user;
+
 const isAuthenticated = (to, from, next) => {
-  let authenticated = store.getters.authenticated,
-      user = store.getters.user;
-
-  console.log(authenticated, user);
-
+  const authenticated = store.getters.authenticated;
+  
   if(authenticated) {
     next();
   } else {

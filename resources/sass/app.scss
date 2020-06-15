@@ -1,5 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans');
 
 // #app {
 //   background: #fff;
@@ -10,6 +11,11 @@
 
 // Variables
 @import 'variables';
+
+@import '~animate.css/source/animate.css';
+
+// Modifications
+@import 'bootstrap/cards';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

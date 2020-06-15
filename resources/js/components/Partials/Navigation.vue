@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="light" variant="light" class="shadow">
+  <b-navbar toggleable="md" type="light" variant="light" class="shadow">
     <b-navbar-brand to="dashboard">Accountant</b-navbar-brand>
     
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -8,6 +8,7 @@
       <b-navbar-nav v-if="loggedIn">
         <b-nav-item to="/dashboard">Dashboard</b-nav-item>
         <b-nav-item to="/clients">Clients</b-nav-item>
+        <b-nav-item to="/invoices">Invoices</b-nav-item>
         <b-nav-item to="/expenses">Expenses</b-nav-item>
         <b-nav-item to="/incomes">Income</b-nav-item>
       </b-navbar-nav>

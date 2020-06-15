@@ -3,11 +3,7 @@
     <b-row>
       <b-col>
 
-        <b-card class="shadow-sm border-0">
-
-          <h2>New User Registration</h2>
-
-          <hr />
+        <b-card header="New User Registration">
 
           <b-form @submit.prevent="register">
 

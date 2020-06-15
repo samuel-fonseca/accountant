@@ -2,7 +2,7 @@
   <b-container class="py-4">
     <b-row>
       <b-col>
-        <b-card class="shadow-sm border-0">
+        <b-card>
           <h1>Welcome, {{ user.name }}</h1>
           <p>Here's a quick overview of your expenses and incomes</p>
         </b-card>

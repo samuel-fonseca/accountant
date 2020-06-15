@@ -1,5 +1,5 @@
 <template>
-  <b-card class="border-0 shadow-sm my-4">
+  <b-card class="my-4">
     
     <b-row class="d-flex justify-content-between border-bottom pb-3 mb-3">
       <b-col cols="8">

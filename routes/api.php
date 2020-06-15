@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('/expenses', 'Api\ExpenseController');
     Route::resource('/incomes', 'Api\IncomeController');
     Route::resource('/clients', 'Api\ClientController');
+    Route::resource('/invoices', 'Api\InvoiceController');
 
     Route::resource('/banks', 'Api\BankController')->only([
         'index', 'store', 'show', 'update', 'destroy'

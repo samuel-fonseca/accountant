@@ -17,16 +17,18 @@ class CreateClientsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             // contact
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('company')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             // address
             $table->string('address');
             $table->string('address2')->nullable();
             $table->string('city');
             $table->string('state');
             $table->string('zip');
+            $table->string('country')->default('US');
             $table->timestamps();
         });
     }

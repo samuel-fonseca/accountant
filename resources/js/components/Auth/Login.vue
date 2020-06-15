@@ -3,11 +3,7 @@
     <b-row class="justify-content-center">
       <b-col sm="12" md="10" lg="6">
 
-        <b-card class="shadow-sm border-0">
-          
-          <h2>Account Login</h2>
-
-          <hr />
+        <b-card header="Account Login">
 
           <b-form method="post" @submit.prevent="login">
 
@@ -73,7 +69,7 @@ export default {
       .finally(() => {
         this.$router.push({ name: 'dashboard' })
       });
-    }
+    },
   },
   computed: {
     redirectAuth() {

@@ -25,7 +25,7 @@ const mutations = {
     state.token = token;
     state.authenticated = true;
   },
-
+  
   RETRIVED_EXPENSES(state, expenses) {
     state.expenses = expenses;
   },
@@ -34,6 +34,7 @@ const mutations = {
     state.incomes = incomes;
   },
 
+  // Clients
   RETRIVED_CLIENTS(state, clients) {
     state.clients = clients;
   },
@@ -50,6 +51,15 @@ const mutations = {
     } else {
       state.clients.push(client);
     }
+  },
+
+  // Invoices
+  RETRIVED_INVOICES(state, invoices) {
+    state.invoices = invoices;
+  },
+
+  NEW_INVOICE(state, invoice) {
+    state.invoices.push(invoice);
   },
 };
 

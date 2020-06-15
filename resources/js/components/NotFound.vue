@@ -5,18 +5,21 @@
 
       <b-col sm="12" md="10" lg="8">
           
-        <h2 class="">
+        <h2 class="display-3">
           <span class="text-danger"><b-icon-exclamation-octagon></b-icon-exclamation-octagon> 404</span> Not Found
         </h2>
 
-        <p>
+        <h3 class="display-5">
           <b class="text-danger">{{ currentPath }}</b> cannot be found.
-        </p>
-        <b-button variant="outline-dark" aria-hidden="true" @click.prevent="goBack">
+        </h3>
+
+        <hr />
+
+        <b-button size="lg" variant="outline-dark" aria-hidden="true" @click.prevent="goBack">
           <b-icon-arrow-bar-left></b-icon-arrow-bar-left>
           Go Back
         </b-button>
-        <b-button variant="outline-dark" aria-hidden="true" @click.prevent="goHomeOrDashboard">
+        <b-button size="lg" variant="outline-dark" aria-hidden="true" @click.prevent="goHomeOrDashboard">
           <b-icon-house></b-icon-house>
           Home
         </b-button>

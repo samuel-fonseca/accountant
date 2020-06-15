@@ -11,6 +11,10 @@ const getters = {
     return state.token;
   },
 
+  invoices: state => {
+    return state.invoices;
+  },
+
   expenses: state => {
     return state.expenses;
   },

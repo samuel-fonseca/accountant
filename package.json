@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "animate.css": "^4.1.0",
         "bootstrap-vue": "^2.15.0",
         "vue-router": "^3.3.2",
         "vue-router-multiguard": "^1.0.3",
