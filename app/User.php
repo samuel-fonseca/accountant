@@ -41,21 +41,21 @@ class User extends Authenticatable
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(App\Invoice::class);
     }
 
     public function clients()
     {
-        return $this->hasMany('App\Client');
+        return $this->hasMany(App\Client::class);
     }
 
     public function expenses()
     {
-        return $this->hasMany('App\Expense');
+        return $this->hasMany(App\Expense::class);
     }
 
     public function incomes()
     {
-        return $this->hasMany('App\Income');
+        return $this->hasMany(App\Income::class);
     }
 }

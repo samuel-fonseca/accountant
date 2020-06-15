@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Invoice;
 use Illuminate\Http\Request;
+use Facades\App\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -15,17 +15,10 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return response()->json(auth()->user()->invoces);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        // $invoice = auth()->user()->invoices;
+        $invoice = Invoice::where('user_id', auth()->id())->with(['client'])->get();
+        
+        return response()->json($invoice, 201);
     }
 
     /**
@@ -36,7 +29,17 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'client_id' => 'required|uuid',
+            'invoiced_at' => 'required',
+            'due_at' => 'required',
+            'line_items' => 'required',
+            'total' => 'required'
+        ]);
+
+        $invoice = Invoice::insert($request->all());
+
+        return response($invoice, 401);
     }
 
     /**
@@ -45,9 +48,9 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        //
+        return Invoice::where([['id', $id], ['user_id', auth()->id()]])->first();
     }
 
     /**
