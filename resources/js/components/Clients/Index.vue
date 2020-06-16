@@ -1,11 +1,9 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <view-all></view-all>
-      </b-col>
-    </b-row>
-  </b-container>
+  <b-row>
+    <b-col>
+      <view-all></view-all>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

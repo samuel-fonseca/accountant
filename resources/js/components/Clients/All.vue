@@ -10,7 +10,9 @@
       </b-col>
     </b-row>
 
-    <b-alert variant="info" :show="!hasClients">No clients have been created yet. Start by adding a new client</b-alert>
+    <b-card-body :show="!hasClients">
+      <b-alert variant="info">No clients have been created yet. Start by adding a new client</b-alert>
+    </b-card-body>
 
     <b-table responsive v-if="hasClients" :items="clients" :fields="table.fields">
 

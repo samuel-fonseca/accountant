@@ -11,6 +11,7 @@ import ClientCreate from '@components/Clients/Create';
 
 import Invoices from '@components/Invoices/Index';
 import InvoiceCreate from '@components/Invoices/Create';
+import InvoiceReceivePayment from '@components/Invoices/Payments/Receive';
 // Expenses
 // import Expenses from '@components/Expenses/Index';
 
@@ -46,12 +47,12 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardIndex,
-    beforeEnter: multiguard([isAuthenticated])
+    // beforeEnter: multiguard([isAuthenticated])
   },
   {
     path: '/clients',
     component: RouterView,
-    beforeEnter: multiguard([isAuthenticated]),
+    // beforeEnter: multiguard([isAuthenticated]),
     children: [{
       path: '',
       name: 'clients.home',
@@ -65,7 +66,7 @@ const routes = [
   {
     path: '/invoices',
     component: RouterView,
-    beforeEnter: multiguard([isAuthenticated]),
+    // beforeEnter: multiguard([isAuthenticated]),
     children: [{
       path: '',
       name: 'invoices.home',
@@ -76,7 +77,17 @@ const routes = [
       component: InvoiceCreate
     }],
   },
-
+  {
+    path: '/invoices/:id',
+    component: RouterView,
+    children: [{
+      path: 'payment',
+      component: InvoiceReceivePayment
+    }, {
+      path: 'edit',
+      component: InvoiceReceivePayment
+    }]
+  },
   {
     path: '*',
     name: '404',

@@ -16,7 +16,7 @@ class InvoiceController extends Controller
     public function index()
     {
         // $invoice = auth()->user()->invoices;
-        $invoice = Invoice::where('user_id', auth()->id())->with(['client'])->get();
+        $invoice = Invoice::orderBy('invoice_number', 'asc')->where('user_id', auth()->id())->with(['client', 'payments'])->get();
         
         return response()->json($invoice, 201);
     }
@@ -50,18 +50,10 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        return Invoice::where([['id', $id], ['user_id', auth()->id()]])->first();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
+        return Invoice::where([
+            ['id', $id],
+            ['user_id', auth()->id()]
+        ])->first();
     }
 
     /**
@@ -73,7 +65,17 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $request->validate([
+            'client_id' => 'required|uuid',
+            'invoiced_at' => 'required',
+            'due_at' => 'required',
+            'line_items' => 'required',
+            'total' => 'required'
+        ]);
+
+        $invoice = Invoice::insert($request->all());
+
+        return response($invoice, 401);
     }
 
     /**

@@ -1,17 +1,21 @@
 <template>
-  <b-card header="New Client">
+  <b-card>
+    <template v-if="!inModal" v-slot:header>
+      New Client
+    </template>
+
     <b-form @submit.prevent="newClient">
 
       <b-row>
         <b-col cols="12">
           <h5><b-icon-person-plus></b-icon-person-plus> Name</h5>
         </b-col>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-form-group label="First Name">
             <b-input v-model="client.firstname" name="firstname" required></b-input>
           </b-form-group>
         </b-col>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-form-group label="Last Name">
             <b-input v-model="client.lastname" name="lastname" required></b-input>
           </b-form-group>
@@ -27,12 +31,12 @@
         <b-col cols="12">
           <h5><b-icon-phone></b-icon-phone> Contact</h5>
         </b-col>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-form-group label="Phone Number">
             <b-input v-model="client.phone" name="phone" required></b-input>
           </b-form-group>
         </b-col>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-form-group label="Email">
             <b-input v-model="client.email" name="email" required></b-input>
           </b-form-group>
@@ -70,9 +74,9 @@
         </b-col>
       </b-row>
 
-      <hr />
+      <hr v-show="!inModal" />
 
-      <b-button :disabled="loading" block size="lg" type="submit" variant="primary">
+      <b-button v-show="!inModal" :disabled="loading" block size="lg" type="submit" variant="primary">
         <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
         Create
       </b-button>
@@ -84,8 +88,15 @@
 <script>
 import statesJson from '@/data/states';
 import countriesJson from '@/data/countries';
+import EventBus from '@/vue/event-bus';
 
 export default {
+  mounted() {
+    EventBus.$on('create-new-client', () => this.newClient());
+  },
+  props: {
+    inModal: Boolean
+  },
   data() {
     return {
       states: statesJson,
@@ -111,7 +122,10 @@ export default {
 
       this.$store.dispatch(action, this.client)
         .then(() => {
-          this.$router.push({ name: 'clients.home' })
+          if (!this.inModal)
+            this.$router.push({ name: 'clients.home' });
+          else
+            EventBus.$emit('client-saved');
         })
         .catch(err => {
           console.error(err);

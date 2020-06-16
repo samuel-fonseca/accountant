@@ -39,6 +39,9 @@ class Invoice extends Model
             $invoice['invoice_number'] = $previous_invoice ? $previous_invoice->invoice_number + 1 : 1000;
         }
 
+        $invoice['invoiced_at'] = date('Y-m-d', strtotime($invoice['invoiced_at']));
+        $invoice['due_at'] = date('Y-m-d', strtotime($invoice['due_at']));
+
         return $this->create($invoice);
     }
 
