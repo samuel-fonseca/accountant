@@ -7,7 +7,7 @@ const headers = {
 };
 
 let token = document.querySelector('meta[name="csrf-token"]'),
-    api_token = localStorage.token;
+    api_token = localStorage.getItem('token');
 
 // if there's a csrf token use it for requests
 if (token) {
@@ -31,6 +31,7 @@ instance.interceptors.response.use(
     if (error.response.status === 401) {
       if (app.$route.name !== 'login' && app.$route.name !== 'register') {
         localStorage.removeItem('token');
+        app.$router.push({name: 'login'});
       }
     } else if (error.response.status === 422) {
       // 
@@ -40,6 +41,6 @@ instance.interceptors.response.use(
 
     return Promise.reject(error);
   }
-)
+);
 
 export default instance;

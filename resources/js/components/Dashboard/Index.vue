@@ -28,7 +28,7 @@
 import { mapGetters } from 'vuex';
 import ExpensesOverview from './ExpensesOverview';
 import IncomesOverview from './IncomesOverview';
-import Clients from '@components/Clients/All';
+import Clients from '@components/Clients/Partial/TableView';
 
 export default {
   components: {
