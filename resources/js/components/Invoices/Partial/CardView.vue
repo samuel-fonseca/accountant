@@ -19,9 +19,9 @@
       </b-card-body>
 
       <b-list-group flush>
-        <b-list-group-item :to="`/invoices/${invoice.id}/payment`">Receive Payment</b-list-group-item>
+        <b-list-group-item href="#" @click.prevent="receivePayment(invoice.id)">Receive Payment</b-list-group-item>
         <b-list-group-item :to="`/invoices/${invoice.id}/edit`">Edit</b-list-group-item>
-        <b-list-group-item @click="deleteInvoice(invoice.id)">Delete</b-list-group-item>
+        <b-list-group-item href="#" @click.prevent="deleteInvoice(invoice.id)">Delete</b-list-group-item>
       </b-list-group>
     </b-card>
 
@@ -31,6 +31,9 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  props: {
+    loading: Boolean
+  },
   methods: {
     totalDue(invoice) {
       let payments = 0;
