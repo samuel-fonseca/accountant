@@ -1,5 +1,6 @@
 <template>
   <b-container class="py-4">
+
     <b-row>
       <b-col>
         <b-card>
@@ -8,6 +9,7 @@
         </b-card>
       </b-col>
     </b-row>
+
     <b-row>
       <b-col sm="12" md="6">
         <expenses-overview></expenses-overview>
@@ -16,11 +18,7 @@
         <incomes-overview></incomes-overview>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col>
-        <clients></clients>
-      </b-col>
-    </b-row>
+
   </b-container>
 </template>
 
@@ -28,13 +26,16 @@
 import { mapGetters } from 'vuex';
 import ExpensesOverview from './ExpensesOverview';
 import IncomesOverview from './IncomesOverview';
-import Clients from '@components/Clients/Partial/TableView';
+import ClientsOverview from '@components/Clients/Partial/Overview';
+import InvoicesOverview from '@components/Invoices/Partial/Overview';
 
 export default {
+  mounted() {
+    // 
+  },
   components: {
     ExpensesOverview,
     IncomesOverview,
-    Clients,
   },
   computed: {
     ...mapGetters([

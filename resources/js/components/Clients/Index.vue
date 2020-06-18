@@ -16,7 +16,7 @@
     </b-col>
     
     <b-col>
-      <view-all></view-all>
+      <table-view :loading="loading"></table-view>
     </b-col>
   </b-row>
 </template>
@@ -26,8 +26,17 @@ import { mapGetters } from 'vuex';
 import AllClients from './Partial/TableView';
 
 export default {
+  mounted() {
+    this.$store.dispatch('fetchClients')
+      .finally(() => this.loading = false);
+  },
   components: {
     'view-all': AllClients
+  },
+  data() {
+    return {
+      loading: true,
+    }
   },
   computed: {
     hasClients() {

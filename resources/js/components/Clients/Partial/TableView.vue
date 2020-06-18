@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body class="my-4">
+  <b-card no-body>
     <b-row class="m-2">
       <b-col sm="7" md="8" lg="6" class="my-1">
         <b-pagination
@@ -67,9 +67,11 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  props: {
+    loading: Boolean
+  },
   data() {
     return {
-      loading: true,
       table: {
         filter: null,
         fields: [
@@ -84,10 +86,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.$store.dispatch('fetchClients')
-      .finally(() => this.loading = false);
   },
   computed: {
     tableClients() {
