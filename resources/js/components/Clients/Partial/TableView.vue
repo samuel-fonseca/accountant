@@ -42,12 +42,12 @@
       responsive
       foot-clone
       stacked="sm"
+      :small="smallTable"
       :fields="table.fields"
       :items="tableClients"
       :current-page="table.pagination.currentPage"
       :per-page="table.pagination.perPage"
-      :filter="table.filter"
-      :filterIncludedFields="table.fields">
+      :filter="table.filter">
       <template v-slot:table-busy>
         <div class="text-center text-success my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -56,8 +56,8 @@
       </template>
     </b-table>
 
-    <b-modal id="view-client-details" title="Client Details">
-      {{ selectedClient }}
+    <b-modal :id="clientModal.id" :title="clientModal.title">
+      <!--  -->
     </b-modal>
 
   </b-card>
@@ -68,7 +68,8 @@ import { mapGetters } from 'vuex';
 
 export default {
   props: {
-    loading: Boolean
+    loading: Boolean,
+    smallTable: Boolean,
   },
   data() {
     return {
@@ -78,13 +79,19 @@ export default {
           {key: 'name', sortable: true},
           {key: 'address', sortable: true}, 
           {key: 'email', sortable: true},
-          {key: 'phone', sortable: false}
+          {key: 'phone', sortable: false},
+          {key: 'customer_since', sortable: false}
         ],
         pagination: {
           currentPage: 1,
           perPage: 25
-        }
-      }
+        },
+      },
+      clientModal: {
+        id: 'view-client-details',
+        title: '',
+        content: '',
+      },
     }
   },
   computed: {
@@ -96,7 +103,8 @@ export default {
           name: c.company || `${c.firstname} ${c.lastname}`,
           address: `${c.address} - ${c.city} ${c.state} ${c.state}`,
           phone: c.phone,
-          email: c.email
+          email: c.email,
+          customer_since: new Date(c.created_at).toLocaleDateString(),
         })
       })
 
