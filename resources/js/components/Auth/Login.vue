@@ -36,7 +36,12 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Login</b-button>
+            <div class="alert alert-danger" v-if="error" v-html="error"></div>
+
+            <b-button :disabled="loading" type="submit" variant="primary">
+              <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
+              Login
+            </b-button>
             <b-button size="sm" variant="link" to="/register">Register for a new account</b-button>
 
           </b-form>
@@ -53,6 +58,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
+      error: false,
       loading: false,
       account: {
         email: '',
@@ -62,13 +68,19 @@ export default {
   },
   methods: {
     login() {
+      this.loading = true;
+      this.error = false;
+
       this.$store.dispatch('loginUser', {
         email: this.account.email,
         password: this.account.password
       })
-      .finally(() => {
-        this.$router.push({ name: 'dashboard' })
-      });
+      .then(() => this.$router.push({ name: 'dashboard' }))
+      .catch(err => {
+        console.error(err);
+        this.error = err.response.data.message;
+      })
+      .finally(() => this.loading = false);
     },
   },
   computed: {

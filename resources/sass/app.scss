@@ -14,9 +14,10 @@
 
 @import '~animate.css/source/animate.css';
 
-// Modifications
-@import 'bootstrap/cards';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index';
+
+// Modifications
+@import 'bootstrap/alerts';
+@import 'bootstrap/cards';
