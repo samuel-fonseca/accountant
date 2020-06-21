@@ -31,7 +31,7 @@ export default {
       .finally(() => this.loading = false);
   },
   components: {
-    'view-all': AllClients
+    'table-view': AllClients
   },
   data() {
     return {
