@@ -1,5 +1,5 @@
 <template>
-  <b-card>
+  <b-card :class="{'no-shadow': inModal}">
     <template v-if="!inModal" v-slot:header>
       New Client
     </template>
@@ -137,6 +137,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.no-shadow {
+  box-shadow: none !important;
+}
 </style>

@@ -74,7 +74,7 @@
                 <b-th>Discounts</b-th>
                 <b-td>
                   <b-input-group size="sm" prepend="$">
-                    <b-input size="sm" v-model="invoice.discounts" type="number" step=".01" name="discounts"></b-input>
+                    <b-input size="sm" v-model="invoice.discount" type="number" step=".01" name="discount"></b-input>
                   </b-input-group>
                 </b-td>
               </b-tr>
@@ -107,7 +107,7 @@
 import EventBus from '@/vue/event-bus';
 import statesJson from '@/data/states';
 
-import SelectClient from '@components/Invoices/Partial/SelectClient';
+import SelectClient from '@components/Invoices/Partial/Form/SelectClient';
 
 export default {
   components: {SelectClient},
@@ -124,7 +124,7 @@ export default {
           rate: '',
         }],
         message: '',
-        discounts: 0.00,
+        discount: 0.00,
         tax: 0.00,
         total: 0.00,
         invoiced_at: new Date(),
@@ -179,7 +179,7 @@ export default {
         items.forEach(a => total += (a.quantity * a.rate));
       }
 
-      return total - this.invoice.discounts;
+      return total - this.invoice.discount;
     },
     paymentsApplied() {
       return 0;
