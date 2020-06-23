@@ -17,15 +17,35 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:50'],
+            'state' => ['required', 'string', 'max:2'],
+            'zip' => ['required', 'string', 'max:5'],
+            'billing_address' => ['max:255'],
+            'billing_city' => ['max:50'],
+            'billing_state' => ['max:2'],
+            'billing_zip' => ['max:5'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            // address
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip,
+            // billing
+            'billing_address' => $request->billing_address,
+            'billing_city' => $request->billing_city,
+            'billing_state' => $request->billing_state,
+            'billing_zip' => $request->billing_zip,
         ]);
 
         return $this->login($request);
@@ -33,6 +53,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
         $http = new \GuzzleHttp\Client;
 
         try {

@@ -13,25 +13,21 @@ import filters from '@/vue/filters';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
-import App from '@components/App';
+import App from '@/views/App';
 
-if (window.__COMPONENTS__) {
-    Object.keys(window.__COMPONENTS__).forEach(c => {
-        Vue.component(c, require(`@components/${window.__COMPONENTS__[c]}.vue`).default);
-    });
-}
+Vue.component('display-error', require(`@components/Errors.vue`).default);
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 Object.keys(filters).forEach(f => {
-    Vue.filter(f, filters[f]);
+  Vue.filter(f, filters[f]);
 });
 
 export const app = new Vue({
-    data: { loading: false },
-    el: '#app',
-    components: {'App': App},
-    store,
-    router
+  data: { loading: false },
+  el: '#app',
+  components: {'App': App},
+  store,
+  router
 });

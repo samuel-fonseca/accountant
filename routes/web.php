@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/mail/invoice/{id}', 'DashboardsController@print_invoice');
+
 // Global routing - Routing is handled by Vue-Router
 Route::get('{any?}', function () {
     return view('app');

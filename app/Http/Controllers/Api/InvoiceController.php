@@ -81,11 +81,29 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoice  $invoice
+     * @param  mixed  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        $invoice = Invoice::find($id);
+
+        // Check permissions
+        if ($invoice->user_id !== auth()->id) return abort(401, 'Authenticated.');
+
+        $invoice->delete();
+
+        return response()->json('Invoice has been deleted');
+    }
+
+    /**
+     * Notify customer of their invoice
+     * 
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
+    public function notify($id)
+    {
+        // 
     }
 }

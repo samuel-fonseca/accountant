@@ -28,6 +28,7 @@ user@machine % php artisan serve
 - [ ] Web routes - Vue-Router
 - [ ] Adding expenses & incomes
 - [ ] Invoicing ability
+- [ ] Payments
 - [ ] Improve frontend theme
 - [ ] PWA Support
 - [ ] Dark mode?

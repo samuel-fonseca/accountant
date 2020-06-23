@@ -1,23 +1,23 @@
-import Index from '@components/Index';
-import RouterView from '@components/RouterView';
+import Index from '@/views/Index';
+import RouterView from '@/views/RouterView';
 // Auth Components
-import Login from '@components/Auth/Login';
-import Register from '@components/Auth/Register';
+import Login from '@/views/Auth/Login';
+import Register from '@/views/Auth/Register';
 // Dashboard
-import DashboardIndex from '@components/Dashboard/Index';
+import DashboardIndex from '@/views/Dashboard/Index';
 // Clients
-import Clients from '@components/Clients/Index';
-import ClientCreate from '@components/Clients/Create';
+import Clients from '@/views/Clients/Index';
+import ClientCreate from '@/views/Clients/Create';
 
-import Invoices from '@components/Invoices/Index';
-import InvoiceCreate from '@components/Invoices/Create';
+import Invoices from '@/views/Invoices/Index';
+import InvoiceCreate from '@/views/Invoices/Create';
 import InvoiceReceivePayment from '@components/Invoices/Payments/Receive';
 // Expenses
 // import Expenses from '@components/Expenses/Index';
 
-import Passport from '@components/passport/Index';
+import Passport from '@/views/Passport';
 
-import NotFound from '@components/NotFound';
+import NotFound from '@/views/NotFound';
 
 import multiguard from 'vue-router-multiguard';
 import { isAuthenticated } from './guards';
@@ -47,12 +47,12 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardIndex,
-    // beforeEnter: multiguard([isAuthenticated])
+    beforeEnter: multiguard([isAuthenticated])
   },
   {
     path: '/clients',
     component: RouterView,
-    // beforeEnter: multiguard([isAuthenticated]),
+    beforeEnter: multiguard([isAuthenticated]),
     children: [{
       path: '',
       name: 'clients.home',
@@ -66,7 +66,7 @@ const routes = [
   {
     path: '/invoices',
     component: RouterView,
-    // beforeEnter: multiguard([isAuthenticated]),
+    beforeEnter: multiguard([isAuthenticated]),
     children: [{
       path: '',
       name: 'invoices.home',
@@ -80,6 +80,7 @@ const routes = [
   {
     path: '/invoices/:id',
     component: RouterView,
+    beforeEnter: multiguard([isAuthenticated]),
     children: [{
       path: 'payment',
       component: InvoiceReceivePayment

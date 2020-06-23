@@ -7,7 +7,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Accountant') }}</title>
+    <script></script>
+    <meta name="description" content="{{ config('app.description') }}" />
+    {{-- APP_NAME="Accountant: Self-Employed"
+APP_SHORT_NAME="Accountant"
+APP_DESCRIPTION="🧮 Accountant is a web app built with Laravel and VueJS which aims to make accounting for self-employed people to track expenses and income." --}}
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
