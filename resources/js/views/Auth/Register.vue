@@ -254,7 +254,7 @@
 
             <display-error :error="error"></display-error>
 
-            <b-button :disabled="loading" type="submit" variant="primary">
+            <b-button pill :disabled="loading" type="submit" variant="primary">
               <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
               Register
             </b-button>
