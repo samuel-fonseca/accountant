@@ -59,7 +59,11 @@
         </b-col>
         <b-col cols="6">
           <b-form-group label="State">
-            <b-form-select v-model="client.state" name="state" :options="states" required></b-form-select>
+            <b-form-select v-model="client.state" name="state" :options="states" required>
+              <template v-slot:first>
+                <option :value="null" disabled>--- Select State ---</option>
+              </template>
+            </b-form-select>
           </b-form-group>
         </b-col>
         <b-col cols="6">
@@ -69,7 +73,11 @@
         </b-col>
         <b-col cols="12">
           <b-form-group label="Country">
-            <b-form-select v-model="client.country" name="country" :options="countries" required></b-form-select>
+            <b-form-select v-model="client.country" name="country" :options="countries" required>
+              <template v-slot:first>
+                <option :value="null" disabled>--- Select Country ---</option>
+              </template>
+            </b-form-select>
           </b-form-group>
         </b-col>
       </b-row>
@@ -110,8 +118,9 @@ export default {
         email: '',
         address: '',
         city: '',
-        state: '',
+        state: null,
         zip: '',
+        country: null,
       }
     }
   },

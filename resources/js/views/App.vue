@@ -3,7 +3,7 @@
     <navigation></navigation>
     <router-view></router-view>
 
-    <!-- <b-container fluid>
+    <!-- <b-container fluid v-if="authenticated">
 
       <b-row class="flex-xl-nowrap2">
 
@@ -16,7 +16,9 @@
         </b-col>
 
       </b-row>
-    </b-container> -->
+    </b-container>
+
+    <router-view v-else></router-view> -->
 
   </div>
 </template>

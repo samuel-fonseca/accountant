@@ -3,7 +3,7 @@ import store from '@/vue/store/index';
 // const user = store.getters.user;
 
 const isAuthenticated = (to, from, next) => {
-  const authenticated = store.getters.authenticated;
+  const authenticated = store.getters.authenticated || localStorage.getItem('token');
   
   if(authenticated) {
     next();

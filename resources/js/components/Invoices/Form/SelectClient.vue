@@ -1,12 +1,13 @@
 <template>
   <div id="select-client">
+
     <b-row class="mb-5">
       <b-col cols="12">
         <h5>
           <b-icon-person-plus></b-icon-person-plus>
           Client
-          <b-button class="ml-4" v-b-modal.create-client-modal>
-            <b-icon-plus-circle></b-icon-plus-circle>
+          <b-button pill size="sm" variant="outline-success" class="ml-4" v-b-modal.create-client-modal>
+            <b-icon-plus></b-icon-plus>
           </b-button>
         </h5>
       </b-col>
