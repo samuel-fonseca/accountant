@@ -25,6 +25,7 @@ class AuthController extends Controller
             'city' => ['required', 'string', 'max:50'],
             'state' => ['required', 'string', 'max:2'],
             'zip' => ['required', 'string', 'max:5'],
+            'country' => ['required', 'string'],
             'billing_address' => ['max:255'],
             'billing_city' => ['max:50'],
             'billing_state' => ['max:2'],
@@ -41,11 +42,13 @@ class AuthController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'zip' => $request->zip,
+            'country' => $request->country,
             // billing
             'billing_address' => $request->billing_address,
             'billing_city' => $request->billing_city,
             'billing_state' => $request->billing_state,
             'billing_zip' => $request->billing_zip,
+            'billing_country' => $request->billing_country,
         ]);
 
         return $this->login($request);
