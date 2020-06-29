@@ -27,14 +27,16 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'firstname' => 'required|max:55',
-            'lastname' => 'required|max:55',
+            'firstname' => 'max:55',
+            'lastname' => 'max:55',
+            'company' => 'max:110',
+            'display_name' => 'required|max:110',
             'phone' => 'required|max:55',
             'email' => 'required|email',
             'address' => 'required|max:125',
             'city' => 'required|max:125',
             'state' => 'required|max:2',
-            'zip' => 'required|max:5',
+            'zip' => 'required',
         ]);
 
         $client = $request->all();
@@ -51,18 +53,10 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return auth()->user()->clients;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $client)
-    {
-        //
+        return Client::where([
+            ['user_id', auth()->id()],
+            ['id', $id]
+        ])->with(['invoices', 'invoices.payments'])->firstOrFail();
     }
 
     /**
@@ -72,9 +66,30 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'firstname' => 'max:55',
+            'lastname' => 'max:55',
+            'company' => 'max:110',
+            'display_name' => 'required|max:110',
+            'phone' => 'required|max:55',
+            'email' => 'required|email',
+            'address' => 'required|max:125',
+            'city' => 'required|max:125',
+            'state' => 'required|max:2',
+            'zip' => 'required',
+        ]);
+
+        $client = $request->all();
+        $client['user_id'] = auth()->id();
+
+        return Client::where([
+            ['id', $id],
+            ['user_id', $client['user_id']]
+        ])
+        ->firstOrFail()
+        ->update($client);
     }
 
     /**
@@ -83,8 +98,19 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy($id)
     {
-        //
+        return Client::find($id)->delete();
+    }
+
+
+    public function invoices($id)
+    {
+        $client = Client::where([
+            ['user_id', auth()->id()],
+            ['id', $id]
+        ])->with(['invoices', 'invoices.payments'])->firstOrFail();
+
+        return response($client->invoices, 200);
     }
 }

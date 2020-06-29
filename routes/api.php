@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::resource('/expenses', 'Api\ExpenseController');
     Route::resource('/incomes', 'Api\IncomeController');
+
+    Route::get('/clients/{id}/invoices', 'Api\ClientController@invoices');
     Route::resource('/clients', 'Api\ClientController');
 
     Route::post('/invoice/{id}/notify', 'Api\InvoiceController@notify');

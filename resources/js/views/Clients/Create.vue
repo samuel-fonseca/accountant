@@ -84,7 +84,7 @@
 
       <hr v-show="!inModal" />
 
-      <b-button v-show="!inModal" :disabled="loading" block size="lg" type="submit" variant="primary">
+      <b-button v-show="!inModal" :disabled="loading && isValid" block size="lg" type="submit" variant="primary">
         <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
         Create
       </b-button>
@@ -110,6 +110,7 @@ export default {
       states: statesJson,
       countries: countriesJson,
       loading: false,
+      required_fields: ['firstname', 'lastname', 'phone', 'email', 'address', 'city', 'state', 'zip', 'country'],
       client: {
         firstname: '',
         lastname: '',
@@ -141,6 +142,20 @@ export default {
           alert('Could not save client right now. Try again later');
         })
         .finally(() => this.loading = false);
+    }
+  },
+  mounted: {
+    isFormValid() {
+      let invoice = this.invoice,
+          fields = this.required_fields;
+
+      fields.forEach(f => {
+        if (invoice[f] === '' || invoice[f] === null || invoice[f] === undefined) {
+          return false;
+        }
+      })
+
+      return true;
     }
   }
 }

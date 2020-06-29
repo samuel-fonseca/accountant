@@ -1,5 +1,5 @@
 <template>
-<b-card no-body header="Information">
+<b-card no-body header="Information" class="sticky-top offset-top">
   <b-card-body>
     Details on open invoices
   </b-card-body>
@@ -49,21 +49,13 @@ export default {
 
       return invoices;
     },
-    overdueInvoices() {
-      let count = 0;
-      // this.invoices.foreac
-    },
-    openInvoices() {
-      let count = 0;
-      this.invoices.forEach(i => count += i.total);
-
-      return count;
-    },
     ...mapGetters(['invoices'])
   }
 }
 </script>
 
 <style>
-
+.offset-top {
+  top: 64px;
+}
 </style>

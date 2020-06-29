@@ -4,11 +4,11 @@
     <b-card v-for="invoice in invoices"
       :key="invoice.id"
       no-body>
-      <template v-slot:header>
+      <template v-slot:header v-if="invoice.client">
         <h5>{{invoice.client.firstname}} {{invoice.client.lastname}}</h5>
         <h6 class="text-muted">Invoice # {{invoice.invoice_number}}</h6>
       </template>
-      <b-card-body>
+      <b-card-body v-if="invoice.client">
         <p>Due: {{ totalDue(invoice) | toUSD }}</p>
         <p>
           <span class="text-muted">Bill To</span><br />

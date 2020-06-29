@@ -138,7 +138,10 @@ export default {
           invoice_date: new Date(invoice.invoiced_at).toLocaleDateString(),
           due_date: new Date(invoice.due_at).toLocaleDateString(),
         };
-        temp.name = invoice.client.company || `${invoice.client.firstname} ${invoice.client.lastname}`;
+        if (invoice.client)
+          temp.name = invoice.client.display_name || `${invoice.client.firstname} ${invoice.client.lastname}`;
+        else
+          temp.name = 'Customer undefined'
 
         data.push(temp);
       });

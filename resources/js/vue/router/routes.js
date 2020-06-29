@@ -1,4 +1,5 @@
 import Index from '@/views/Index';
+import About from '@/views/About';
 import RouterView from '@/views/RouterView';
 // Auth Components
 import Login from '@/views/Auth/Login';
@@ -7,7 +8,8 @@ import Register from '@/views/Auth/Register';
 import DashboardIndex from '@/views/Dashboard/Index';
 // Clients
 import Clients from '@/views/Clients/Index';
-import ClientCreate from '@/views/Clients/Create';
+import CreateClient from '@/views/Clients/Create';
+import ViewClient from '@/views/Clients/View';
 
 import Invoices from '@/views/Invoices/Index';
 import InvoiceCreate from '@/views/Invoices/Create';
@@ -27,6 +29,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Index
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About
   },
   {
     path: '/passport',
@@ -60,7 +67,11 @@ const routes = [
     }, {
       path: 'create',
       name: 'clients.create',
-      component: ClientCreate
+      component: CreateClient
+    }, {
+      path: ':id',
+      name: 'view.invoice',
+      component: ViewClient
     }],
   },
   {

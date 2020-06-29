@@ -67,6 +67,14 @@ const actions = {
       });
   },
 
+  async fetchClientWithInvoices({commit}, id) {
+    return await axios.get(`/clients/${id}`);
+  },
+
+  async fetchClientInvoices({commit}, id) {
+    return await axios.get(`/clients/${id}/invoices`);
+  },
+
   async createClient({commit}, client) {
     return await axios.post('/clients', client)
       .then(res => {
