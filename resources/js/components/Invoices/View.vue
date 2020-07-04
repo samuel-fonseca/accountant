@@ -1,5 +1,19 @@
 <template>
-  <b-container fluid id="view-invoice">
+  <div id="view-invoice">
+    <b-row class="mb-4">
+      <b-col sm="12" md="6" class="mb-2">
+        <b-button variant="outline-dark" block :to="`/invoices/${invoice.id}/payment`">
+          <b-icon-download></b-icon-download>
+          Receive Payments
+        </b-button>
+      </b-col>
+      <b-col sm="12" md="6" class="mb-2">
+        <b-button variant="outline-danger" block @click.prevent="deleteInvoice(invoice.id)">
+          <b-icon-trash-fill></b-icon-trash-fill>
+          Delete Invoice
+        </b-button>
+      </b-col>
+    </b-row>
     <b-row>
       <b-col sm="12" md="6">
         <h6 class="text-muted">Bill To</h6>
@@ -70,10 +84,12 @@
         </b-table-simple>
       </b-col>
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>
+import EventBus from '@/vue/event-bus';
+
 export default {
   data() {
     return {
@@ -91,6 +107,10 @@ export default {
   methods: {
     logThis(data) {
       console.log({data});
+    },
+    deleteInvoice(id) {
+      this.$store.dispatch('deleteInvoice', id)
+        .then(() => EventBus.$emit('invoiceDeleted', id));
     }
   }
 }

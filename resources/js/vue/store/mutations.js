@@ -58,6 +58,13 @@ const mutations = {
     state.invoices = invoices;
   },
 
+  INVOICE_DELETED(state, id) {
+    let index = state.invoices.findIndex(i => i.id === id);
+    
+    if (index)
+      state.invoices.splice(index, 1);
+  },
+
   NEW_INVOICE(state, invoice) {
     state.invoices.push(invoice);
   },

@@ -97,6 +97,10 @@ const actions = {
       });
   },
 
+  async fetchInvoice({commit}, id) {
+    return await axios.get(`/invoices/${id}`);
+  },
+
   async createInvoice({commit}, invoice) {
     return await axios.post('/invoices', invoice)
       .then(res => {
@@ -108,6 +112,13 @@ const actions = {
     return await axios.put('/invoices', invoice)
       .then(res => {
         commit('UPDATED_INVOICE', res.data);
+      });
+  },
+
+  async deleteInvoice({commit}, id) {
+    return await axios.delete(`/invoices/${id}`)
+      .then(() => {
+        commit('INVOICE_DELETED', id);
       });
   },
 

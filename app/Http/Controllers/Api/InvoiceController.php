@@ -53,7 +53,7 @@ class InvoiceController extends Controller
         return Invoice::where([
             ['id', $id],
             ['user_id', auth()->id()]
-        ])->with(['client', 'payments'])->first();
+        ])->with(['client', 'payments'])->firstOrFail();
     }
 
     /**
@@ -89,7 +89,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         // Check permissions
-        if ($invoice->user_id !== auth()->id) return abort(401, 'Authenticated.');
+        if ($invoice->user_id !== auth()->id()) return abort(401, 'Authenticated.');
 
         $invoice->delete();
 

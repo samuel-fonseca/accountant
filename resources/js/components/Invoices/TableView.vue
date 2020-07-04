@@ -54,7 +54,6 @@
       select-mode="single"
       @row-selected="invoiceSelected"
     >
-
       <!-- Loading spin -->
       <template v-slot:table-busy>
         <div class="text-center text-success my-2">
@@ -62,7 +61,10 @@
           <strong>Loading...</strong>
         </div>
       </template>
-
+      <!-- Action -->
+      <template v-slot:cell(payments)="row">
+        <b-button size="sm" variant="outline-success" :to="`/invoices/${invoices[row.index].id}/payment`">Payment Received</b-button>
+      </template>
     </b-table>
 
   </b-card>
@@ -91,7 +93,8 @@ export default {
           {key: 'name', sortable: true},
           {key: 'total', sortable: true},
           {key: 'invoice_date', sortable: true},
-          {key: 'due_date', sortable: true} 
+          {key: 'due_date', sortable: true},
+          {key: 'payments', sortable: false} 
         ],
         pagination: {
           currentPage: 1,

@@ -13,6 +13,7 @@ import ViewClient from '@/views/Clients/View';
 
 import Invoices from '@/views/Invoices/Index';
 import InvoiceCreate from '@/views/Invoices/Create';
+import InvoiceView from '@/views/Invoices/View';
 import InvoiceReceivePayment from '@components/Invoices/Payments/Receive';
 // Expenses
 // import Expenses from '@components/Expenses/Index';
@@ -86,19 +87,13 @@ const routes = [
       path: 'create',
       name: 'invoices.create',
       component: InvoiceCreate
-    }],
-  },
-  {
-    path: '/invoices/:id',
-    component: RouterView,
-    beforeEnter: multiguard([isAuthenticated]),
-    children: [{
-      path: 'payment',
-      component: InvoiceReceivePayment
     }, {
-      path: 'edit',
+      path: ':id',
+      component: InvoiceView
+    }, {
+      path: ':id/payment',
       component: InvoiceReceivePayment
-    }]
+    }],
   },
   {
     path: '*',
