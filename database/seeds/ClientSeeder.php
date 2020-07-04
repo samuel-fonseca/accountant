@@ -24,10 +24,10 @@ class ClientSeeder extends Seeder
             $id = $user->id;
         }
 
-        Client::truncate();
-
         factory(Client::class, 100)->create(['user_id' => $id])->each(function ($client) use ($id) {
-            $client->invoices()->save(factory(Invoice::class)->make(['user_id' => $id]));
+            for ($i = 0; $i < rand(2, 10); $i++) {
+                $client->invoices()->save(factory(Invoice::class)->make(['user_id' => $id]));
+            }
         });
 
     }

@@ -26,6 +26,9 @@ class CreateInvoicesTable extends Migration
             $table->date('invoiced_at');
             $table->date('due_at');
             $table->timestamps();
+
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

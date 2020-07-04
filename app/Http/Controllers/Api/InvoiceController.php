@@ -53,7 +53,7 @@ class InvoiceController extends Controller
         return Invoice::where([
             ['id', $id],
             ['user_id', auth()->id()]
-        ])->first();
+        ])->with(['client', 'payments'])->first();
     }
 
     /**
