@@ -8,9 +8,12 @@
       Total Invoices <b-badge variant="success">{{ invoicesDetails.count }}</b-badge>
     </b-list-group-item>
     <b-list-group-item class="d-flex justify-content-between align-items-center">
-      Open Invoices <b-badge variant="info">{{ invoicesDetails.open | toUSD }}</b-badge>
+      Total Invoiced <b-badge variant="success">{{ invoicesDetails.total | toUSD }}</b-badge>
     </b-list-group-item>
     <b-list-group-item class="d-flex justify-content-between align-items-center">
+      Open Invoices <b-badge variant="info">{{ invoicesDetails.open | toUSD }}</b-badge>
+    </b-list-group-item>
+    <b-list-group-item v-if="invoicesDetails.overdue" variant="danger" class="d-flex justify-content-between align-items-center">
       Overdue <b-badge variant="danger">{{ invoicesDetails.overdue | toUSD }}</b-badge>
     </b-list-group-item>
   </b-list-group>
@@ -30,15 +33,19 @@ export default {
     invoicesDetails() {
       let invoices = {
         count: this.invoices.length,
+        total: 0,
         open: 0,
         overdue: 0,
         paid: 0,
-      };
+      },
+      today = new Date();
 
       this.invoices.forEach(invoice => {
-        invoices.open += invoice.total;
+        let due_at = new Date(invoice.due_at);
 
-        if (new Date(invoice.due_at) > new Date()) {
+        invoices.total += invoice.total;
+
+        if (due_at > today) {
           invoices.overdue += invoice.total
         }
 
