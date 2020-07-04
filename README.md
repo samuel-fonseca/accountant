@@ -9,6 +9,7 @@ Clone the repository and install dependencies
 ```console
 user@machine % git clone git@github.com:samuel-fonseca/accountant.git accountant && cd accountant
 user@machine % composer install
+user@machine % php artisan migrate
 user@machine % php artisan passport:install --uuids
 ```
 
