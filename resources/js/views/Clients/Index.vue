@@ -28,9 +28,13 @@
     <b-col cols="12">
       <div class="alert alert-info" v-if="!hasClients">No clients have been created yet. Start by adding a new client</div>
       <template v-else>
+        <!-- Table view -->
         <b-row v-if="view === 'table'">
-          <table-view :loading="loading" :clients="clients"></table-view>
+          <b-col cols="12">
+            <table-view :loading="loading" :clients="clients"></table-view>
+          </b-col>
         </b-row>
+        <!-- List view -->
         <b-row v-else>
           <b-col md="2" lg="3" class="mb-4">
             <list-view :loading="loading"></list-view>

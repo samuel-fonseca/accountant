@@ -69,9 +69,7 @@ export default {
   mounted() {
     EventBus.$on('clientSelected', (client) => {
       this.client = client;
-      let id = client.id;
-
-      this.$store.dispatch('fetchClientInvoices', id)
+      this.$store.dispatch('fetchClientInvoices', client.id)
         .then(response => this.originalInvoices = response.data)
         .finally(() => this.loading = false);
     });
