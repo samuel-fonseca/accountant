@@ -6,7 +6,7 @@
         <b-input-group>
           <b-form-input v-model="search" type="text" placeholder="Search Client"></b-form-input>
           <template v-slot:append>
-            <b-button variant="light" @click.prevent="search = ''">
+            <b-button variant="outline-secondary" @click.prevent="search=''">
               <b-icon-x></b-icon-x>
             </b-button>
           </template>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     selectClient(client) {
-      if (this.selectedClient === client.id) return;
+      if (this.selectedClient === client.id && this.selectedClient !== null) return;
 
       this.selectedClient = client.id;
       EventBus.$emit('clientSelected', client)
@@ -50,7 +50,19 @@ export default {
         return this.clients.filter(c => c.display_name.toLowerCase().includes(this.search.toLowerCase()));
       }
 
-      return this.clients;
+      return this.clients.sort((a, b) => {
+        const aDisplayName = a.display_name.toLowerCase();
+        const bDisplayName = b.display_name.toLowerCase();
+
+        let comparison = 0;
+        if (aDisplayName > bDisplayName) {
+          comparison = 1;
+        } else {
+          comparison = -1
+        }
+
+        return comparison;
+      });
     },
     ...mapGetters(['clients'])
   }

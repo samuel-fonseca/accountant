@@ -15,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return auth()->user()->clients;
+        return response(auth()->user()->clients);
     }
 
     /**
