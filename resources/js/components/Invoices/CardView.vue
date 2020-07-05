@@ -21,7 +21,7 @@
           </b-card-body>
 
           <b-list-group flush>
-            <b-list-group-item href="#" @click.prevent="receivePayment(invoice.id)">Receive Payment</b-list-group-item>
+            <b-list-group-item :to="`/invoices/${invoice.id}/payment`">Receive Payment</b-list-group-item>
             <b-list-group-item :to="`/invoices/${invoice.id}/edit`">Edit</b-list-group-item>
             <b-list-group-item href="#" @click.prevent="deleteInvoice(invoice.id)">Delete</b-list-group-item>
           </b-list-group>
@@ -57,7 +57,9 @@ export default {
       return invoice.total - payments;
     },
     deleteInvoice(id) {
-      this.$store.dispatch('deleteInvoice');
+      this.$store.dispatch('deleteInvoice')
+        .then(res => console.log(res))
+        .catch(err => alert(err.response.data.message || "Could not delete invoice at this time. Try again later."));
     },
     totalViewIncrease() {
       if (this.total_view >= this.invoices.length) return;

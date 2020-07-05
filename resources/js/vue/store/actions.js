@@ -93,7 +93,7 @@ const actions = {
   async fetchInvoices({commit}) {
     return await axios.get('/invoices')
       .then(res => {
-        commit('RETRIVED_INVOICES', res.data);
+        commit('INVOICES_RETRIEVED', res.data);
       });
   },
 
@@ -104,14 +104,14 @@ const actions = {
   async createInvoice({commit}, invoice) {
     return await axios.post('/invoices', invoice)
       .then(res => {
-        commit('NEW_INVOICE', res.data);
+        commit('INVOICE_CREATED', res.data);
       });
   },
 
   async updateInvoice({commit}, invoice) {
-    return await axios.put('/invoices', invoice)
+    return await axios.put(`/invoices/${invoice.id}`, invoice)
       .then(res => {
-        commit('UPDATED_INVOICE', res.data);
+        commit('INVOICE_UPDATED', res.data);
       });
   },
 

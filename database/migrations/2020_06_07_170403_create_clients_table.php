@@ -30,6 +30,8 @@ class CreateClientsTable extends Migration
             $table->string('zip');
             $table->string('country')->default('US');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

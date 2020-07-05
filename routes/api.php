@@ -26,7 +26,9 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('/clients', 'Api\ClientController');
 
     Route::post('/invoices/{id}/notify', 'Api\InvoiceController@notify');
-    Route::resource('/invoices', 'Api\InvoiceController');
+    Route::resource('/invoices', 'Api\InvoiceController')->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
     Route::resource('/banks', 'Api\BankController')->only([
         'index', 'store', 'show', 'update', 'destroy'

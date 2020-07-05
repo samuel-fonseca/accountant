@@ -26,27 +26,29 @@
     </b-col>
     
     <b-col cols="12">
-      <div class="alert alert-info" v-if="!hasClients">No clients have been created yet. Start by adding a new client</div>
-      <template v-else>
-        <!-- Table view -->
-        <b-row v-if="view === 'table'">
-          <b-col cols="12">
-            <table-view :loading="loading" :clients="clients"></table-view>
-          </b-col>
-        </b-row>
-        <!-- List view -->
-        <b-row v-else>
-          <b-col md="2" lg="3" class="mb-4">
-            <list-view :loading="loading"></list-view>
-          </b-col>
-          <b-col md="10" lg="9" class="mb-4">
-            <client-view v-if="clientSelected" :client.sync="client"></client-view>
-            <b-alert :show="!clientSelected" variant="info">
-              No client selected
-            </b-alert>
-          </b-col>
-        </b-row>
-      </template>
+      <b-overlay :show="loading">
+        <div class="alert alert-info" v-if="!hasClients && !loading">No clients have been created yet. Start by adding a new client</div>
+        <template v-else>
+          <!-- Table view -->
+          <b-row v-if="view === 'table'">
+            <b-col cols="12">
+              <table-view :loading="loading" :clients="clients"></table-view>
+            </b-col>
+          </b-row>
+          <!-- List view -->
+          <b-row v-else>
+            <b-col md="2" lg="3" class="mb-4">
+              <list-view :loading="loading"></list-view>
+            </b-col>
+            <b-col md="10" lg="9" class="mb-4">
+              <client-view v-if="clientSelected" :client.sync="client"></client-view>
+              <b-alert :show="!clientSelected" variant="info">
+                No client selected
+              </b-alert>
+            </b-col>
+          </b-row>
+        </template>
+      </b-overlay>
     </b-col>
   </b-row>
 </template>

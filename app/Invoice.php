@@ -28,6 +28,18 @@ class Invoice extends Model
         return $this->hasMany('App\Payment');
     }
 
+    public function fetchWithRelationships($id = null, $orderBy = 'invoice_number')
+    {
+        $query = $this->orderBy($orderBy, 'asc')
+                    ->where('user_id', auth()->id())
+                    ->with(['client', 'payments']);
+
+        if ($id) {
+            return $query->where('id', $id)->firstOrFail();
+        } else {
+            return $query->get();
+        }
+    }
 
     public function insert($invoice)
     {
@@ -42,7 +54,9 @@ class Invoice extends Model
         $invoice['invoiced_at'] = date('Y-m-d', strtotime($invoice['invoiced_at']));
         $invoice['due_at'] = date('Y-m-d', strtotime($invoice['due_at']));
 
-        return $this->create($invoice);
+        $new = $this->create($invoice);
+
+        return $this->fetchWithRelationships($new->id);
     }
 
 }

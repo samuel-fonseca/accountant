@@ -1,58 +1,66 @@
 <template>
 <b-row class="justify-content-center">
   <b-col sm="12" md="10" lg="8">
-    <b-card header="New Invoice">
-      <b-form @submit.prevent="newInvoice">
+    <b-overlay :show="loading">
+      <b-card>
+        <template v-slot:header>
+          <span v-if="update">Update invoice</span>
+          <span v-else>New invoice</span>
+        </template>
 
-        <select-client :invoice.sync="invoice"></select-client>
+        <b-form @submit.prevent="newInvoice">
 
-        <dates-selection :invoice.sync="invoice"></dates-selection>
+          <select-client :invoice.sync="invoice"></select-client>
 
-        <b-row>
-          <b-col cols="12">
-            <line-items :invoice.sync="invoice"></line-items>
-          </b-col>
-        </b-row>
+          <dates-selection :invoice.sync="invoice"></dates-selection>
 
-        <b-row class="my-4">
-          <b-col sm="12" md="6">
-            <h6 class="text-muted">Invoice Terms</h6>
-            <b-form-textarea size="sm" v-model="invoice.message" name="message"></b-form-textarea>
-          </b-col>
+          <b-row>
+            <b-col cols="12">
+              <line-items :invoice.sync="invoice"></line-items>
+            </b-col>
+          </b-row>
 
-          <b-col sm="12" md="6">
-            <b-table-simple borderless>
-              <b-tr>
-                <b-th>Discounts</b-th>
-                <b-td>
-                  <b-input-group size="sm" prepend="$">
-                    <b-input size="sm" v-model="invoice.discount" type="number" step=".01" name="discount"></b-input>
-                  </b-input-group>
-                </b-td>
-              </b-tr>
-              <!-- <b-tr v-if="invoice.payments">
-                <b-th>Payments</b-th>
-                <b-td>{{ paymentsApplied }}</b-td>
-              </b-tr> -->
-              <b-tr>
-                <b-th>Total Due</b-th>
-                <b-td>{{ calculateTotalLineItems | toUSD }}</b-td>
-              </b-tr>
-            </b-table-simple>
-          </b-col>
-        </b-row>
+          <b-row class="my-4">
+            <b-col sm="12" md="6">
+              <h6 class="text-muted">Invoice Terms</h6>
+              <b-form-textarea size="sm" v-model="invoice.message" name="message"></b-form-textarea>
+            </b-col>
 
-        <hr />
+            <b-col sm="12" md="6">
+              <b-table-simple borderless>
+                <b-tr>
+                  <b-th>Discounts</b-th>
+                  <b-td>
+                    <b-input-group size="sm" prepend="$">
+                      <b-input size="sm" v-model="invoice.discount" type="number" step=".01" name="discount"></b-input>
+                    </b-input-group>
+                  </b-td>
+                </b-tr>
+                <!-- <b-tr v-if="invoice.payments">
+                  <b-th>Payments</b-th>
+                  <b-td>{{ paymentsApplied }}</b-td>
+                </b-tr> -->
+                <b-tr>
+                  <b-th>Total Due</b-th>
+                  <b-td>{{ calculateTotalLineItems | toUSD }}</b-td>
+                </b-tr>
+              </b-table-simple>
+            </b-col>
+          </b-row>
 
-        <display-error :error="error"></display-error>
+          <hr />
 
-        <b-button pill :disabled="loading" block size="lg" type="submit" variant="primary">
-          <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
-          Create
-        </b-button>
-        
-      </b-form>
-    </b-card>
+          <display-error :error="error"></display-error>
+
+          <b-button pill :disabled="loading" block size="lg" type="submit" variant="primary">
+            <b-icon-circle-fill v-show="loading" animation="throb"></b-icon-circle-fill>
+            <span v-if="update">Update</span>
+            <span v-else>Create</span>
+          </b-button>
+          
+        </b-form>
+      </b-card>
+    </b-overlay>
   </b-col>
 </b-row>
 </template>
@@ -71,6 +79,14 @@ export default {
   components: {
     SelectClient, LineItems, DatesSelection, DisplayError,
   },
+  mounted() {
+    if (this.$route.params.id) {
+      this.update = true;
+      this.getEditableInvoice()
+    } else {
+      this.loading = false;
+    }
+  },
   data() {
     // set invoices dates
     const invoiceDate = new Date();
@@ -78,8 +94,9 @@ export default {
     dueDate.setMonth(dueDate.getMonth() + 1); // Add 1 month from today
 
     return {
+      update: false,
       states: statesJson,
-      loading: false,
+      loading: true,
       error: null,
       invoice: {
         client_id: null,
@@ -109,16 +126,23 @@ export default {
       this.invoice.line_items.forEach(item => item.total = item.quantity * item.rate);
 
       this.$store.dispatch(action, this.invoice)
-        .then(() => {
-          this.$router.push({ name: 'invoices.home' })
-        })
+        .then(res => this.$router.push(`/invoices`))
         .catch(err => {
+          console.log(err);
           this.error = err.response.data;
         })
         .finally(() => this.loading = false);
     },
-    fetchClients() {
-      return this.$store.dispatch('fetchClients');
+
+    getEditableInvoice() {
+      this.$store.dispatch('fetchInvoice', this.$route.params.id)
+        .then(res => {
+          let invoice = res.data;
+          invoice.line_items = JSON.parse(invoice.line_items);
+          this.invoice = invoice;
+        })
+        .catch(err => console.log(err))
+        .finally(() => this.loading = false);
     }
   },
   computed: {

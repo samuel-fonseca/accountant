@@ -88,6 +88,9 @@ const routes = [
       name: 'invoices.create',
       component: InvoiceCreate
     }, {
+      path: ':id/edit',
+      component: InvoiceCreate
+    }, {
       path: ':id',
       component: InvoiceView
     }, {

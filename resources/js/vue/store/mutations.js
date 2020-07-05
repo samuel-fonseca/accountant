@@ -54,7 +54,7 @@ const mutations = {
   },
 
   // Invoices
-  RETRIVED_INVOICES(state, invoices) {
+  INVOICES_RETRIEVED(state, invoices) {
     state.invoices = invoices;
   },
 
@@ -65,8 +65,16 @@ const mutations = {
       state.invoices.splice(index, 1);
   },
 
-  NEW_INVOICE(state, invoice) {
+  INVOICE_CREATED(state, invoice) {
     state.invoices.push(invoice);
+  },
+
+  INVOICE_UPDATED(state, invoice) {
+    let index = state.invoices.findIndex(i => i.id === invoice.id);
+
+    if (index) {
+      state.invoices[index] = invoice;
+    }
   },
 };
 

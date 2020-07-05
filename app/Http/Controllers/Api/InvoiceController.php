@@ -16,7 +16,7 @@ class InvoiceController extends Controller
     public function index()
     {
         // $invoice = auth()->user()->invoices;
-        $invoice = Invoice::orderBy('invoice_number', 'asc')->where('user_id', auth()->id())->with(['client', 'payments'])->get();
+        $invoice = Invoice::fetchWithRelationships();
         
         return response()->json($invoice, 201);
     }
@@ -50,10 +50,7 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        return Invoice::where([
-            ['id', $id],
-            ['user_id', auth()->id()]
-        ])->with(['client', 'payments'])->firstOrFail();
+        return Invoice::fetchWithRelationships($id);
     }
 
     /**
@@ -63,8 +60,12 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $id)
     {
+        if ($request->auth_id && $request->auth_id !== auth()->id()) {
+            return response(['message' => 'User ID does not match. Unauthorized access.'], 422);
+        }
+
         $request->validate([
             'client_id' => 'required|uuid',
             'invoiced_at' => 'required',
@@ -73,9 +74,22 @@ class InvoiceController extends Controller
             'total' => 'required'
         ]);
 
-        $invoice = Invoice::insert($request->all());
+        $data = [
+            'client_id' => $request->client_id,
+            'line_items' => $request->line_items,
+            'message' => $request->message,
+            'tax' => $request->tax,
+            'discount' => $request->discount,
+            'total' => $request->total,
+            'invoiced_at' => $request->invoiced_at,
+            'due_at' => $request->due_at,
+        ];
 
-        return response($invoice, 401);
+        if (Invoice::find($id)->update($data)) {
+            return response(Invoice::fetchWithRelationships($id));
+        } else {
+            return response(['message' => 'Could not update the invoice at this time.'], 422);
+        }
     }
 
     /**
