@@ -2,8 +2,8 @@
 <div id="invoice-home">
   <b-card no-body>
 
-    <b-row class="m-2">
-      <b-col sm="7" md="8" lg="6" class="my-1">
+    <b-row align-h="between" class="m-2">
+      <b-col sm="12" md="12" lg="5" class="my-1">
         <b-pagination
           v-model="table.pagination.currentPage"
           :total-rows="invoices.length"
@@ -14,7 +14,19 @@
         ></b-pagination>
       </b-col>
 
-      <b-col sm="12" md="4" lg="6" class="my-1">
+      <b-col sm="12" md="6" lg="2" class="my-1">
+        <b-form-group
+          label="Show"
+          label-cols-sm="3"
+          label-align-sm="right"
+          label-size="sm"
+          label-for="itemsPerPage"
+          class="mb-0">
+          <b-form-select id="itemsPerPage" v-model="table.pagination.perPage" :options="itemsPerPageIncrements"></b-form-select>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="12" md="6" lg="5" class="my-1">
         <b-form-group
           label="Filter"
           label-cols-sm="3"
@@ -150,6 +162,15 @@ export default {
       });
 
       return data;
+    },
+    itemsPerPageIncrements() {
+      let arr = [5];
+
+      for (var i = 25; i <= 500; i += 25) {
+        arr.push(i);
+      }
+
+      return arr;
     },
     ...mapGetters(['invoices'])
   }
