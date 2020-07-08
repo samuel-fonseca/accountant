@@ -14,18 +14,6 @@
         ></b-pagination>
       </b-col>
 
-      <b-col sm="12" md="6" lg="2" class="my-1">
-        <b-form-group
-          label="Show"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for="itemsPerPage"
-          class="mb-0">
-          <b-form-select id="itemsPerPage" v-model="table.pagination.perPage" :options="itemsPerPageIncrements"></b-form-select>
-        </b-form-group>
-      </b-col>
-
       <b-col sm="12" md="6" lg="5" class="my-1">
         <b-form-group
           label="Filter"
@@ -46,6 +34,18 @@
               <b-button :disabled="!table.filter" @click="table.filter = ''">Clear</b-button>
             </b-input-group-append>
           </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="12" md="6" lg="2" class="my-1">
+        <b-form-group
+          label="Show"
+          label-cols-sm="3"
+          label-align-sm="right"
+          label-size="sm"
+          label-for="itemsPerPage"
+          class="mb-0">
+          <b-form-select size="sm" id="itemsPerPage" v-model="table.pagination.perPage" :options="itemsPerPageIncrements"></b-form-select>
         </b-form-group>
       </b-col>
     </b-row>
@@ -72,10 +72,6 @@
           <b-spinner class="align-middle"></b-spinner>
           <strong>Loading...</strong>
         </div>
-      </template>
-      <!-- Action -->
-      <template v-slot:cell(payments)="row">
-        <b-button size="sm" variant="outline-success" :to="`/invoices/${invoices[row.index].id}/payment`">Payment Received</b-button>
       </template>
     </b-table>
 
@@ -106,7 +102,6 @@ export default {
           {key: 'total', sortable: true},
           {key: 'invoice_date', sortable: true},
           {key: 'due_date', sortable: true},
-          {key: 'payments', sortable: false} 
         ],
         pagination: {
           currentPage: 1,

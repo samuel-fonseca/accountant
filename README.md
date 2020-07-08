@@ -8,12 +8,15 @@ Clone the repository and install dependencies
 
 ```console
 user@machine % git clone git@github.com:samuel-fonseca/accountant.git accountant && cd accountant
+user@machine % cp .env.example .env
 user@machine % composer install
 user@machine % php artisan migrate
 user@machine % php artisan passport:install --uuids
+In order to finish configuring client UUIDs, we need to rebuild the Passport database tables. Would you like to rollback and re-run your last migration? (yes/no) [no]:
+> yes
 ```
 
-Once Passport is installed copy the `Client ID` and `Client Secret`. Add those to your `.env` file.
+Once Passport is installed copy the `Client ID` and `Client Secret`. Add them to your `.env` file.
 
 ```console
 Password grant client created successfully.
@@ -27,7 +30,7 @@ PASSPORT_CLIENT_ID="90f6920c-d516-4fcc-aa2d-f6a78579826e"
 PASSPORT_CLIENT_SECRET="JozpRvsIKbRRozwrnQ5DiLnXwmXT8RS0SQlX9BAc"
 ```
 
-Once all dependencies are installed you can serve the application using Laravel's test server or use the server you currently use.
+Once all dependencies are installed you can serve the application using Laravel's test server:
 
 ```console
 user@machine % php artisan serve
@@ -55,9 +58,9 @@ user@machine % php artisan db:seed
 
 - [x] Authentication
 - [x] API OAuth Authentication
-- [ ] API routes
+- [x] API routes
 - [x] Web routes - Laravel
-- [ ] Web routes - Vue-Router
+- [x] Web routes - Vue-Router
 - [ ] Adding expenses & incomes
 - [x] Invoicing ability
 - [ ] Payments
