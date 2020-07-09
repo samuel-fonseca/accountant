@@ -77,7 +77,14 @@
 
   </b-card>
 
-  <b-modal size="lg" scrollable :title="invoiceModal.title" :id="invoiceModal.id" ok-only @hidden="clearSelectedInvoice" @ok="clearSelectedInvoice">
+  <b-modal
+    ok-only
+    size="lg"
+    scrollable
+    :title="invoiceModal.title"
+    :id="invoiceModal.id"
+    @hidden="clearSelectedInvoice"
+    @ok="clearSelectedInvoice">
     <view-invoice :invoice="invoiceModal.invoice"></view-invoice>
   </b-modal>
 
@@ -86,11 +93,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import EventBus from '@/vue/event-bus';
 import ViewInvoice from './View';
 
 export default {
+  mounted() {
+    // listen for invoice delete & close modal
+    EventBus.$on('invoiceDeleted', () => this.$bvModal.hide(this.invoiceModal.id))
+  },
   props: {
     loading: Boolean
+  },
+  components: {
+    ViewInvoice
   },
   data() {
     return {
@@ -114,9 +129,6 @@ export default {
         invoice: null,
       },
     }
-  },
-  components: {
-    ViewInvoice
   },
   methods: {
     invoiceSelected(invoice) {
@@ -161,7 +173,7 @@ export default {
     itemsPerPageIncrements() {
       let arr = [5];
 
-      for (var i = 25; i <= 500; i += 25) {
+      for (var i = 25; i <= 500; i += 50) {
         arr.push(i);
       }
 
