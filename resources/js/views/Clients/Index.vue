@@ -6,10 +6,14 @@
           <h3>Clients</h3>
         </b-col>
         <b-col cols="4">
-          <b-button pill variant="dark" block :to="{ name: 'clients.create' }" class="shadow">
-            <b-icon-plus-circle class="mr-2"></b-icon-plus-circle>
-            Add
-          </b-button>
+          <b-dropdown variant="dark" block class="shadow rounded-pill">
+            <template v-slot:button-content>
+              <b-icon-plus-circle class="mr-2"></b-icon-plus-circle>
+              Add
+            </template>
+            <b-dropdown-item :to="{ name: 'clients.create' }">Add Client</b-dropdown-item>
+            <b-dropdown-item v-if="clientSelected" :to="{ name: 'invoices.create', query: {client_id: clientSelected.id} }">Add Invoice for {{ clientSelected.display_name }}</b-dropdown-item>
+          </b-dropdown>
         </b-col>
       </b-row>
     </b-col>
@@ -41,10 +45,7 @@
               <list-view :loading="loading"></list-view>
             </b-col>
             <b-col md="10" lg="9" class="mb-4">
-              <client-view v-if="clientSelected" :client.sync="client"></client-view>
-              <b-alert :show="!clientSelected" variant="info">
-                No client selected
-              </b-alert>
+              <client-view :loading="loading" :client.sync="clientSelected"></client-view>
             </b-col>
           </b-row>
         </template>
@@ -64,9 +65,12 @@ import ClientView from '@components/Clients/ClientView';
 export default {
   mounted() {
     this.$store.dispatch('fetchClients')
-      .finally(() => this.loading = false);
+      .finally(() => {
+        this.clientSelected = this.clients[0];
+        this.loading = false
+      });
 
-    EventBus.$on('clientSelected', () => this.clientSelected = true);
+    EventBus.$on('clientSelected', (client) => this.clientSelected = client);
   },
   components: {
     ListView,
@@ -76,8 +80,7 @@ export default {
   data() {
     return {
       loading: true,
-      clientSelected: false,
-      client: {},
+      clientSelected: {},
       view: 'list'
     }
   },

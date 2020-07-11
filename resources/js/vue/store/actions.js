@@ -71,8 +71,8 @@ const actions = {
     return await axios.get(`/clients/${id}`);
   },
 
-  async fetchClientInvoices({commit}, id) {
-    return await axios.get(`/clients/${id}/invoices`);
+  async fetchClient({commit}, id) {
+    return await axios.get(`/clients/${id}`);
   },
 
   async createClient({commit}, client) {
@@ -92,8 +92,9 @@ const actions = {
   // Invoices
   async fetchInvoices({commit}) {
     return await axios.get('/invoices')
-      .then(res => {
-        commit('INVOICES_RETRIEVED', res.data);
+      .then(response => {
+        commit('INVOICES_RETRIEVED', response.data);
+        return response;
       });
   },
 
@@ -103,22 +104,25 @@ const actions = {
 
   async createInvoice({commit}, invoice) {
     return await axios.post('/invoices', invoice)
-      .then(res => {
-        commit('INVOICE_CREATED', res.data);
+      .then(response => {
+        commit('INVOICE_CREATED', response.data);
+        return response;
       });
   },
 
   async updateInvoice({commit}, invoice) {
     return await axios.put(`/invoices/${invoice.id}`, invoice)
-      .then(res => {
-        commit('INVOICE_UPDATED', res.data);
+      .then(response => {
+        commit('INVOICE_UPDATED', response.data);
+        return response;
       });
   },
 
   async deleteInvoice({commit}, id) {
     return await axios.delete(`/invoices/${id}`)
-      .then(() => {
+      .then((response) => {
         commit('INVOICE_DELETED', id);
+        return response;
       });
   },
 

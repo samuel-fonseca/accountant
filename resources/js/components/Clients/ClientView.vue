@@ -1,5 +1,6 @@
 <template>
-  <b-card :header="`${client.display_name}`">
+<div>
+  <b-card v-if="client" :header="`${client.display_name}`">
     <b-row class="mb-2">
       <b-col cols="12" md="6">
         <h6>
@@ -32,7 +33,7 @@
       </b-col>
     </b-row>
 
-    <b-table small bordered :busy="loading" :items="invoices" head-variant="dark">
+    <b-table striped small bordered :busy="loading" :items="invoices" head-variant="dark">
       <template v-slot:table-busy>
         <div class="text-center text-info my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -52,33 +53,32 @@
       </template>
     </b-table>
   </b-card>
+  <b-alert v-else>No Customer Select --- start by selecting a customer</b-alert>
+</div>
 </template>
 
 <script>
 import EventBus from '@/vue/event-bus';
 
 export default {
+  props: {
+    client: Object,
+    loading: Boolean
+  },
   data() {
     return {
-      loading: true,
       originalInvoices: [],
       invoiceTableFields: ['number', 'total', 'due', 'action'],
-      client: {}
     }
-  },
-  mounted() {
-    EventBus.$on('clientSelected', (client) => {
-      this.client = client;
-      this.$store.dispatch('fetchClientInvoices', client.id)
-        .then(response => this.originalInvoices = response.data)
-        .finally(() => this.loading = false);
-    });
   },
   computed: {
     invoices() {
+      if (this.loading) return;
+
       let invoices = [];
-      this.originalInvoices.forEach(invoice => {
+      this.client.invoices.forEach(invoice => {
         invoices.push({
+          // _cellVariants: {due: new Date(invoice.due)},
           number: invoice.invoice_number,
           total: this.$options.filters.toUSD(invoice.total),
           due: this.$options.filters.localeDate(invoice.invoiced_at),

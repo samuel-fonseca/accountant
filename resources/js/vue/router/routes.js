@@ -10,11 +10,13 @@ import DashboardIndex from '@/views/Dashboard/Index';
 import Clients from '@/views/Clients/Index';
 import CreateClient from '@/views/Clients/Create';
 import ViewClient from '@/views/Clients/View';
-
+// Invoices
 import Invoices from '@/views/Invoices/Index';
 import InvoiceCreate from '@/views/Invoices/Create';
 import InvoiceView from '@/views/Invoices/View';
-import InvoiceReceivePayment from '@components/Invoices/Payments/Receive';
+// Payments
+import Payments from '@/views/Payments/Index';
+import PaymentCreate from '@/views/Payments/Create';
 // Expenses
 // import Expenses from '@components/Expenses/Index';
 
@@ -93,10 +95,20 @@ const routes = [
     }, {
       path: ':id',
       component: InvoiceView
-    }, {
-      path: ':id/payment',
-      component: InvoiceReceivePayment
     }],
+  },
+  {
+    path: '/payments',
+    component: RouterView,
+    beforeEnter: multiguard([isAuthenticated]),
+    children: [{
+      path: '',
+      name: 'payments.home',
+      component: Payments
+    }, {
+      path: ':id',
+      component: PaymentCreate
+    }]
   },
   {
     path: '*',

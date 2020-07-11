@@ -16,7 +16,7 @@
               <b-icon icon="download"></b-icon>
               Download
             </b-button>
-            <b-button disabled variant="light" :to="`/invoices/${invoice.id}/payment`">
+            <b-button variant="light" :to="`/invoices/${invoice.id}/payment`">
               <b-icon icon="moon"></b-icon>
               Receive Payment
             </b-button>
@@ -124,7 +124,7 @@ export default {
     },
     deleteInvoice(id) {
       this.$store.dispatch('deleteInvoice', id)
-        .then(() => EventBus.$emit('invoiceDeleted', id));
+        .then((response) => EventBus.$emit('invoiceDeleted', response));
     }
   }
 }

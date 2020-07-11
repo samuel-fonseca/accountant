@@ -14,31 +14,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Passport Auth Functions
+ */
+Route::post('/register', 'API\AuthController@register')->name('register');
+Route::post('/login', 'API\AuthController@login')->name('login');
+Route::middleware('auth:api')->post('/logout', 'API\AuthController@logout')->name('logout');
+
+/**
+ * Get user account info
+ */
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/**
+ * Auth API middleware group
+ */
 Route::middleware('auth:api')->group(function () {
-    Route::resource('/expenses', 'Api\ExpenseController');
-    Route::resource('/incomes', 'Api\IncomeController');
+    // Route::resource('/expenses', 'API\ExpenseController');
+    // Route::resource('/incomes', 'API\IncomeController');
 
-    Route::get('/clients/{id}/invoices', 'Api\ClientController@invoices');
-    Route::resource('/clients', 'Api\ClientController');
+    // Clients
+    Route::get('/clients/{id}/invoices', 'API\ClientController@invoices');
+    Route::resource('/clients', 'API\ClientController');
 
-    Route::post('/invoices/{id}/notify', 'Api\InvoiceController@notify');
-    Route::resource('/invoices', 'Api\InvoiceController')->only([
+    // Invoices
+    Route::post('/invoices/{id}/notify', 'API\InvoiceController@notify');
+    Route::resource('/invoices', 'API\InvoiceController')->only([
         'index', 'store', 'show', 'update', 'destroy'
     ]);
 
-    Route::resource('/banks', 'Api\BankController')->only([
-        'index', 'store', 'show', 'update', 'destroy'
-    ]);
+    // Payments
+    Route::resource('/payments', 'API\PaymentsController');
+
+    // Route::resource('/banks', 'API\BankController')->only([
+    //     'index', 'store', 'show', 'update', 'destroy'
+    // ]);
 
 });
-
-/**
- * Passport Auth Functions
- */
-Route::post('/register', 'Api\AuthController@register')->name('register');
-Route::post('/login', 'Api\AuthController@login')->name('login');
-Route::middleware('auth:api')->post('/logout', 'Api\AuthController@logout')->name('logout');

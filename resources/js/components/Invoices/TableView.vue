@@ -99,7 +99,7 @@ import ViewInvoice from './View';
 export default {
   mounted() {
     // listen for invoice delete & close modal
-    EventBus.$on('invoiceDeleted', () => this.$bvModal.hide(this.invoiceModal.id))
+    EventBus.$on('invoiceDeleted', (payload) => this.invoiceDeleted(payload))
   },
   props: {
     loading: Boolean
@@ -114,7 +114,7 @@ export default {
         fields: [
           {key: 'invoice_number', label: 'Invoice #', sortable: true},
           {key: 'name', sortable: true},
-          {key: 'total', sortable: true},
+          {key: 'total_due', sortable: true},
           {key: 'invoice_date', sortable: true},
           {key: 'due_date', sortable: true},
         ],
@@ -145,6 +145,13 @@ export default {
         invoice: null,
       };
       this.$refs.invoicesTable.clearSelected();
+    },
+    invoiceDeleted(payload) {
+      this.$bvModal.hide(this.invoiceModal.id);
+      this.$bvToast.toast(payload.data.message, {
+        title: '✅ Invoice Deleted',
+        autoHideDelay: 5000
+      })
     }
   },
   computed: {
@@ -153,10 +160,15 @@ export default {
           temp = {};
 
       this.invoices.forEach(invoice => {
+        
+        if (invoice.payments.length) {
+          total_due = invoice.total - (invoice.payments.reduce((previous, current) => previous.total + current.total));
+        }
+
         temp = {
           id: invoice.id,
           invoice_number: invoice.invoice_number,
-          total: this.$options.filters.toUSD(invoice.total),
+          total_due: this.$options.filters.toUSD(invoice.total),
           invoice_date: new Date(invoice.invoiced_at).toLocaleDateString(),
           due_date: new Date(invoice.due_at).toLocaleDateString(),
         };
@@ -171,11 +183,16 @@ export default {
       return data;
     },
     itemsPerPageIncrements() {
-      let arr = [5];
+      let arr = [5, 25, 50],
+          limit = this.invoices.length;
 
-      for (var i = 25; i <= 500; i += 50) {
+      for (var i = 100; i <= 500; i += 50) {
+        if (i >= limit) { break; }
+        // push increment
         arr.push(i);
       }
+
+      arr.push(limit);
 
       return arr;
     },
