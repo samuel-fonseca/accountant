@@ -106,7 +106,8 @@ const routes = [
       name: 'payments.home',
       component: Payments
     }, {
-      path: ':id',
+      path: 'create',
+      name: 'payments.create',
       component: PaymentCreate
     }]
   },

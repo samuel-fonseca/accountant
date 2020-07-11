@@ -99,7 +99,7 @@ export default {
       loading: true,
       error: null,
       invoice: {
-        client_id: null,
+        client_id: this.$route.query.client_id || null,
         invoice_number: '',
         line_items: [{
           description: null,
@@ -168,6 +168,12 @@ export default {
     paymentsApplied() {
       return 0;
     },
+    // clientId () {
+    //   let client_id = this.$route.query.client_id;
+
+    //   if (client_id)
+    //     return client_id
+    // }
   }
 }
 </script>

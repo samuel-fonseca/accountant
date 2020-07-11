@@ -57,7 +57,7 @@ export default {
     CreateClient
   },
   props: {
-    invoice: Object
+    invoice: Object,
   },
   mounted() {
     this.fetchClients();
@@ -87,10 +87,7 @@ export default {
       return selectable;
     },
     selectedClient() {
-      if (this.invoice.client_id)
-        return this.clients.find(c => c.id === this.invoice.client_id);
-
-      return {};
+      return this.invoice.client_id ? this.clients.find(c => c.id === this.invoice.client_id) : {};
     },
     ...mapGetters(['clients']),
   },
