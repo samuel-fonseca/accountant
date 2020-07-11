@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Invoice;
 use Illuminate\Http\Request;
-use Facades\App\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -15,10 +15,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // $invoice = auth()->user()->invoices;
-        $invoice = Invoice::fetchWithRelationships();
-        
-        return response()->json($invoice, 201);
+        $invoice = auth()->user()->invoices->load(['client', 'payments']);
+        return response()->json($invoice);
     }
 
     /**
@@ -37,9 +35,12 @@ class InvoiceController extends Controller
             'total' => 'required'
         ]);
 
-        $invoice = Invoice::insert($request->all());
+        $invoice = (new Invoice)->insert($request->all());
 
-        return response($invoice, 401);
+        if ($invoice)
+            return response()->json($invoice);
+        else
+            return response()->json(['message' => 'Could not create invoice at this time.'], 422);
     }
 
     /**
@@ -48,9 +49,11 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Invoice $invoice)
     {
-        return Invoice::fetchWithRelationships($id);
+        $this->authorize('view', Invoice::class);
+
+        return response()->json($invoice->load(['client', 'payments']));
     }
 
     /**
@@ -60,16 +63,12 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        if ($request->auth_id && $request->auth_id !== auth()->id()) {
-            return response(['message' => 'User ID does not match. Unauthorized access.'], 422);
-        }
-
         $request->validate([
             'client_id' => 'required|uuid',
-            'invoiced_at' => 'required',
-            'due_at' => 'required',
+            'invoiced_at' => 'required|date',
+            'due_at' => 'required|date|after_or_equal:invoiced_at',
             'line_items' => 'required',
             'total' => 'required'
         ]);
@@ -85,29 +84,25 @@ class InvoiceController extends Controller
             'due_at' => $request->due_at,
         ];
 
-        if (Invoice::find($id)->update($data)) {
-            return response(Invoice::fetchWithRelationships($id));
-        } else {
-            return response(['message' => 'Could not update the invoice at this time.'], 422);
-        }
+        if ($invoice->update($data))
+            return response()->json($invoice->load(['client', 'payments']));
+        else
+            return response()->json(['message' => 'Could not update the invoice at this time.'], 422);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $id
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Invoice $invoice)
     {
-        $invoice = Invoice::find($id);
-
-        // Check permissions
-        if ($invoice->user_id !== auth()->id()) return abort(401, 'Authenticated.');
+        // get client name
+        $client_name = $invoice->load('client')->client->display_name;
 
         $invoice->delete();
-
-        return response()->json('Invoice has been deleted');
+        return response()->json(['message' => 'Invoice for '. $client_name .' has been deleted.']);
     }
 
     /**

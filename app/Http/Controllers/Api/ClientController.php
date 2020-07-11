@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Client;
@@ -15,7 +15,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return response(auth()->user()->clients);
+        $client = auth()->user()->clients->load(['invoices', 'invoices.payments']);
+        return response()->json($client);
     }
 
     /**
@@ -26,10 +27,10 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'firstname' => 'max:55',
-            'lastname' => 'max:55',
-            'company' => 'max:110',
+        $validated = $request->validate([
+            'firstname' => 'nullable|max:55',
+            'lastname' => 'nullable|max:55',
+            'company' => 'nullable|max:110',
             'display_name' => 'required|max:110',
             'phone' => 'required|max:55',
             'email' => 'required|email',
@@ -39,10 +40,10 @@ class ClientController extends Controller
             'zip' => 'required',
         ]);
 
-        $client = $request->all();
-        $client['user_id'] = auth()->user()->id;
+        $validated['user_id'] = auth()->user()->id;
+        $client = Client::create($validated);
 
-        return Client::create($client);
+        return response()->json($client);
     }
 
     /**
@@ -51,12 +52,11 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
-        return Client::where([
-            ['user_id', auth()->id()],
-            ['id', $id]
-        ])->with(['invoices', 'invoices.payments'])->firstOrFail();
+        return response()->json(
+            $client->load(['invoices', 'invoices.payments'])
+        );
     }
 
     /**
@@ -66,12 +66,12 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Client $client)
     {
-        $request->validate([
-            'firstname' => 'max:55',
-            'lastname' => 'max:55',
-            'company' => 'max:110',
+        $validated = $request->validate([
+            'firstname' => 'nullable|max:55',
+            'lastname' => 'nullable|max:55',
+            'company' => 'nullable|max:110',
             'display_name' => 'required|max:110',
             'phone' => 'required|max:55',
             'email' => 'required|email',
@@ -81,15 +81,10 @@ class ClientController extends Controller
             'zip' => 'required',
         ]);
 
-        $client = $request->all();
-        $client['user_id'] = auth()->id();
-
-        return Client::where([
-            ['id', $id],
-            ['user_id', $client['user_id']]
-        ])
-        ->firstOrFail()
-        ->update($client);
+        if ($client->update($validated))
+            return response()->json($client->load(['invoices', 'invoices.payments']));
+        else
+            return response()->json(['message' => 'Could not update the client at this moment. Try again later.'], 422);
     }
 
     /**
@@ -98,19 +93,11 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        return Client::find($id)->delete();
-    }
+        $name = $client->display_name;
 
-
-    public function invoices($id)
-    {
-        $client = Client::where([
-            ['user_id', auth()->id()],
-            ['id', $id]
-        ])->with(['invoices', 'invoices.payments'])->firstOrFail();
-
-        return response($client->invoices, 200);
+        $client->delete();
+        return response()->json(['message' => $name . ' has been deleted.']);
     }
 }

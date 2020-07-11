@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\User;
@@ -16,7 +16,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -32,33 +32,19 @@ class AuthController extends Controller
             'billing_zip' => ['max:5'],
         ]);
 
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            // address
-            'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-            'country' => $request->country,
-            // billing
-            'billing_address' => $request->billing_address,
-            'billing_city' => $request->billing_city,
-            'billing_state' => $request->billing_state,
-            'billing_zip' => $request->billing_zip,
-            'billing_country' => $request->billing_country,
-        ]);
+        $validated['password'] = Hash::make($request->password);
 
-        return $this->login($request);
+        $user = User::create($validated);
+        $token = $user->createToken('authToken')->accessToken;
+
+        return response(['user' => $user, 'access_token' => $token]);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8',
         ]);
 
         $http = new \GuzzleHttp\Client;
@@ -75,17 +61,16 @@ class AuthController extends Controller
                 ]
             ]);
 
-            return $response->getBody();
+            // return JSON response with token
+            return response()->json(
+                json_decode($response->getBody()->getContents())
+            );
 
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
 
-            if ($e->getCode() === 400) {
-                return abort($e->getCode(), 'Bad Request. Enter a valid username/password');
-            } else if ($e->getCode() === 401) {
-                return abort($e->getCode(), 'Your credentials are incorrect. Please, try again.');
-            }
+            $response = json_decode($e->getResponse()->getBody()->getContents());
 
-            return abort($e->getCode(), 'Something went wrong on the server.');
+            return abort($e->getCode(), $response->message ?: 'Something broke. Please, try again later.');
         }
     }
 

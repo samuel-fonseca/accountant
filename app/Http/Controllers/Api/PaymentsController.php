@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Bank;
+use App\Payment;
 use Illuminate\Http\Request;
 
-class BankController extends Controller
+class PaymentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class BankController extends Controller
      */
     public function index()
     {
-        return Bank::all();
+        $payments = Payment::all();
+        return response(['payments' => $payments, 'message' => 'Payments retrieved.']);
     }
 
     /**
@@ -26,36 +27,28 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:55',
-            'url' => 'required|max:155',
-        ]);
-
-        $bank = $request->all();
-        $bank['slug'] = strtolower(str_replace(' ', '-', $bank['name']));
-
-        return Bank::create($request->all());
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bank  $bank
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Payment $payment)
     {
-        return Bank::find($id);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Bank  $bank
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bank $bank)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -63,10 +56,10 @@ class BankController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Bank  $bank
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bank $bank)
+    public function destroy(Payment $payment)
     {
         //
     }
