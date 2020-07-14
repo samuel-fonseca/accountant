@@ -33,7 +33,7 @@
       </b-col>
     </b-row>
 
-    <b-table striped small bordered :busy="loading" :items="invoices" head-variant="dark">
+    <b-table v-if="hasInvoices" striped small bordered :busy="loading" :items="invoices" :fields="invoiceTableFields" head-variant="dark">
       <template v-slot:table-busy>
         <div class="text-center text-info my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -47,11 +47,14 @@
         <b-button size="sm" variant="outline-info" :to="data.item.action.edit">
           <b-icon-pencil-square></b-icon-pencil-square>
         </b-button>
-        <b-button size="sm" variant="outline-danger" :to="data.item.action.delete">
+        <b-button size="sm" variant="outline-danger" @click.prevent="deleteInvoice(data.item.id)">
           <b-icon-trash></b-icon-trash>
         </b-button>
       </template>
     </b-table>
+    <b-alert :show="!hasInvoices" v-else variant="light">
+      No invoices for this customer. <router-link :to="{ path: '/invoices/create', query: {client_id: this.client.id} }">Create a new invoice</router-link>.
+    </b-alert>
   </b-card>
   <b-alert v-else>No Customer Select --- start by selecting a customer</b-alert>
 </div>
@@ -79,6 +82,7 @@ export default {
       this.client.invoices.forEach(invoice => {
         invoices.push({
           // _cellVariants: {due: new Date(invoice.due)},
+          id: invoice.id,
           number: invoice.invoice_number,
           total: this.$options.filters.toUSD(invoice.total),
           due: this.$options.filters.localeDate(invoice.invoiced_at),
@@ -87,6 +91,20 @@ export default {
       });
 
       return invoices;
+    },
+    hasInvoices() {
+      return this.invoices.length > 0;
+    }
+  },
+  methods: {
+    deleteInvoice(id) {
+      this.$store.dispatch('deleteInvoice', id)
+        .then(() => {
+          let index = this.client.invoices.findIndex(i => i.id === id);
+          if (index)
+            this.client.invoices.splice(index, 1)
+        })
+        .catch(err => alert(err.response.data.message || "Could not delete invoice at this time..."));
     }
   }
 }
