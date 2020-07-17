@@ -70,7 +70,13 @@ class AuthController extends Controller
 
             $response = json_decode($e->getResponse()->getBody()->getContents());
 
-            return abort($e->getCode(), $response->message ?: 'Something broke. Please, try again later.');
+            if ($response) {
+                $response = $response->message;
+            } else {
+                $response = 'Something broke. Please, try again later.';
+            }
+
+            return abort($e->getCode(), $response);
         }
     }
 
