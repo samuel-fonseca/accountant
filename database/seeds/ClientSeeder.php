@@ -16,7 +16,7 @@ class ClientSeeder extends Seeder
     {
         $user = User::all();
 
-        if ($user) {
+        if (empty($user)) {
             $id = $user[0]->id;
         } else 
         {
