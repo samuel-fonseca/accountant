@@ -16,9 +16,10 @@ class ClientSeeder extends Seeder
     {
         $user = User::all();
 
-        if (empty($user)) {
+        if ($user) {
             $id = $user[0]->id;
-        } else 
+        }
+        else
         {
             $user = factory(User::class)->create();
             $id = $user->id;

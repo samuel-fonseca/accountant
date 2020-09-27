@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class Install extends Command
@@ -65,7 +66,13 @@ class Install extends Command
      */
     protected function migrate()
     {
-        Artisan::call('migrate:refresh');
+        $this->info('Migrating and Refreshing Database tables...');
+
+        $output = new BufferedOutput;
+
+        Artisan::call('migrate:refresh', [], $output);
+
+        $this->line($output->fetch());
 
         return $this;
     }
@@ -75,10 +82,12 @@ class Install extends Command
      */
     protected function passportInstall()
     {
+        $this->info('Installing Passport...');
         $output = new BufferedOutput;
 
-        Artisan::call('passport:install', [], $output);
+        Artisan::call('passport:install --force', [], $output);
 
+        $this->info('Passport output:');
         $this->line($output->fetch());
 
         return $this;
@@ -89,7 +98,13 @@ class Install extends Command
      */
     protected function seed()
     {
-        Artisan::call('db:seed');
+        $this->info('Seeding Tables...');
+
+        $output = new BufferedOutput;
+
+        Artisan::call('db:seed', [], $output);
+
+        $this->line($output->fetch());
 
         return $this;
     }
@@ -102,7 +117,7 @@ class Install extends Command
     protected function setupUser()
     {
         // Account details
-        $this->line('Set up new user account');
+        $this->info('Set up new user account');
         $user['firstname'] = $this->ask('What is your first name?');
         $user['lastname'] = $this->ask('What is your last name?');
         $user['email'] = $this->ask('What is your email?');
@@ -130,6 +145,10 @@ class Install extends Command
                 $this->error('Account could not be created at this time. Try again.');
                 return;
             }
+        }
+        else
+        {
+            return $this->setupUser();
         }
     }
 
