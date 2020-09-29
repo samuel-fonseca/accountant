@@ -93,7 +93,11 @@ export default {
       return invoices;
     },
     hasInvoices() {
-      return this.invoices.length > 0;
+      if (this.client)
+        if (this.client.invoices)
+          return this.client.invoices.length > 0;
+
+      return 0;
     }
   },
   methods: {
@@ -101,7 +105,7 @@ export default {
       this.$store.dispatch('deleteInvoice', id)
         .then(() => {
           let index = this.client.invoices.findIndex(i => i.id === id);
-          if (index)
+          if (index !== -1)
             this.client.invoices.splice(index, 1)
         })
         .catch(err => alert(err.response.data.message || "Could not delete invoice at this time..."));

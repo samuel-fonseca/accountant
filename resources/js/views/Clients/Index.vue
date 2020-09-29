@@ -41,10 +41,10 @@
           </b-row>
           <!-- List view -->
           <b-row v-else>
-            <b-col md="2" lg="3" class="mb-4">
+            <b-col md="4" lg="3" class="mb-4">
               <list-view :loading="loading"></list-view>
             </b-col>
-            <b-col md="10" lg="9" class="mb-4">
+            <b-col md="8" lg="9" class="mb-4">
               <client-view :loading="loading" :client.sync="clientSelected"></client-view>
             </b-col>
           </b-row>
