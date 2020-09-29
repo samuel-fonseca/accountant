@@ -4,7 +4,7 @@
     <b-row>
       <b-col>
         <b-card>
-          <h1>Welcome, {{ user.name }}</h1>
+          <h1>Welcome {{ user.firstname }}</h1>
           <p>Here's a quick overview of your expenses and incomes</p>
         </b-card>
       </b-col>
@@ -12,10 +12,10 @@
 
     <b-row>
       <b-col sm="12" md="6">
-        <expenses-overview></expenses-overview>
+        <clients-overview></clients-overview>
       </b-col>
       <b-col sm="12" md="6">
-        <incomes-overview></incomes-overview>
+        <invoices-overview></invoices-overview>
       </b-col>
     </b-row>
 
@@ -24,16 +24,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ExpensesOverview from '@components/Dashboard/ExpensesOverview';
-import IncomesOverview from '@components/Dashboard/IncomesOverview';
+import ClientsOverview from '@components/Dashboard/ClientsOverview';
+import InvoicesOverview from '@components/Dashboard/InvoicesOverview';
 
 export default {
   mounted() {
     // 
   },
   components: {
-    ExpensesOverview,
-    IncomesOverview,
+    ClientsOverview,
+    InvoicesOverview,
   },
   computed: {
     ...mapGetters([

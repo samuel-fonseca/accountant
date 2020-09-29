@@ -34,7 +34,7 @@ $factory->define(Invoice::class, function (Faker $faker) {
     $tax = $invoice_total * 0.06; // kentucky sales tax
 
     $invoice_date = $faker->date('Y-m-d');
-    $due_date = date('Y-m-d', strtotime('+30 days'. strtotime($invoice_date)));
+    $due_date = date('Y-m-d', strtotime('+30 days', strtotime($invoice_date)));
 
     return [
         'user_id' => Str::uuid(),
