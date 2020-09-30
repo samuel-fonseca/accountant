@@ -56,6 +56,9 @@ class Install extends Command
         $this->setupUser();
         $this->passportInstall()->seed();
 
+        $this->info('Installation completed...');
+        $this->line('Make sure to get the Client ID and and Client Secret for Passport Password Grant');
+
         return 0;
     }
 
