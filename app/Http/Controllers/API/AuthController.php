@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
+    /**
+     * Get user account info
+     * 
+     * return Auth::user()
+     */
+    public function user()
+    {
+        // get API user
+        $user = auth('api')->user();
+
+        if ($user)
+            return response($user, 200);
+
+        return response(null, 401);
+    }
+
     /**
      * Register new user and grant Access Token
      * 

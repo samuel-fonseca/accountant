@@ -22,11 +22,9 @@ Route::post('/login', 'API\AuthController@login')->name('login');
 Route::middleware('auth:api')->post('/logout', 'API\AuthController@logout')->name('logout');
 
 /**
- * Get user account info
+ * Fetch user account || null (CODE: 401)
  */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/user', 'API\AuthController@user')->name('user');
 
 /**
  * Auth API middleware group
