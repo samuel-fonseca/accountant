@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Invoice;
+use App\Http\Requests\InvoiceRequest;
+use App\Http\Resources\InvoiceResource;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -15,8 +17,12 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoice = auth()->user()->invoices->load(['client', 'payments']);
-        return response()->json($invoice);
+        $invoice = auth()->user()
+            ->invoices
+            ->sortBy('invoice_number')
+            ->load(['client', 'payments']);
+
+        return InvoiceResource::collection($invoice);
     }
 
     /**
@@ -25,22 +31,11 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvoiceRequest $request)
     {
-        $request->validate([
-            'client_id' => 'required|uuid',
-            'invoiced_at' => 'required',
-            'due_at' => 'required',
-            'line_items' => 'required',
-            'total' => 'required'
-        ]);
+        $invoice = $request->save();
 
-        $invoice = (new Invoice)->insert($request->all());
-
-        if ($invoice)
-            return response()->json($invoice);
-        else
-            return response()->json(['message' => 'Could not create invoice at this time.'], 422);
+        return new InvoiceResource($invoice);
     }
 
     /**
@@ -84,10 +79,11 @@ class InvoiceController extends Controller
             'due_at' => $request->due_at,
         ];
 
-        if ($invoice->update($data))
+        if ($invoice->update($data)) {
             return response()->json($invoice->load(['client', 'payments']));
-        else
+        } else {
             return response()->json(['message' => 'Could not update the invoice at this time.'], 422);
+        }
     }
 
     /**
@@ -107,12 +103,12 @@ class InvoiceController extends Controller
 
     /**
      * Notify customer of their invoice
-     * 
+     *
      * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function notify($id)
     {
-        // 
+        //
     }
 }

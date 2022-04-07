@@ -1,16 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\UuidPrimaryKey;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use Notifiable, UuidPrimaryKey, HasApiTokens;
+    use Notifiable, UuidPrimaryKey, HasApiTokens, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -41,21 +42,21 @@ class User extends Authenticatable
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(Invoice::class);
     }
 
     public function clients()
     {
-        return $this->hasMany('App\Client');
+        return $this->hasMany(Client::class);
     }
 
     public function expenses()
     {
-        return $this->hasMany('App\Expense');
+        return $this->hasMany(Expense::class);
     }
 
     public function incomes()
     {
-        return $this->hasMany('App\Income');
+        return $this->hasMany(Income::class);
     }
 }

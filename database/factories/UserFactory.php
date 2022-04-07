@@ -1,41 +1,42 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-
-$factory->define(User::class, function (Faker $faker) {
-    return [
-        'firstname' => $faker->firstName,
-        'lastname' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
-        // Mailing address
-        'address' => $faker->streetAddress,
-        'city' => $faker->city,
-        'state' => $faker->stateAbbr,
-        'zip' => $faker->postcode,
-        'country' => 'US',
-        // Billing address
-        'billing_address' => $faker->streetAddress,
-        'billing_city' => $faker->city,
-        'billing_state' => $faker->stateAbbr,
-        'billing_zip' => $faker->postcode,
-        'billing_country' => 'US',
-    ];
-});
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\User>
+ */
+class UserFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'firstname' => $this->faker->firstName(),
+            'lastname' => $this->faker->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            // Mailing address
+            'address' => $this->faker->streetAddress(),
+            'city' => $this->faker->city(),
+            'state' => $this->faker->stateAbbr(),
+            'zip' => $this->faker->postcode(),
+            'country' => 'US',
+            // Billing address
+            'billing_address' => $this->faker->streetAddress(),
+            'billing_city' => $this->faker->city(),
+            'billing_state' => $this->faker->stateAbbr(),
+            'billing_zip' => $this->faker->postcode(),
+            'billing_country' => 'US',
+        ];
+    }
+}

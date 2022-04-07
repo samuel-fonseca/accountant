@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Client;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -31,7 +31,6 @@ class ClientController extends Controller
             'firstname' => 'nullable|max:55',
             'lastname' => 'nullable|max:55',
             'company' => 'nullable|max:110',
-            'display_name' => 'required|max:110',
             'phone' => 'required|max:55',
             'email' => 'required|email',
             'address' => 'required|max:125',
@@ -81,10 +80,11 @@ class ClientController extends Controller
             'zip' => 'required',
         ]);
 
-        if ($client->update($validated))
+        if ($client->update($validated)) {
             return response()->json($client->load(['invoices', 'invoices.payments']));
-        else
+        } else {
             return response()->json(['message' => 'Could not update the client at this moment. Try again later.'], 422);
+        }
     }
 
     /**

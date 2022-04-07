@@ -1,31 +1,46 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\UuidPrimaryKey;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    use UuidPrimaryKey;
+    use UuidPrimaryKey, HasFactory;
 
     protected $fillable = [
-        'user_id', 'client_id', 'invoice_number', 'line_items', 'message', 'tax', 'discount', 'total', 'due_at', 'invoiced_at',
+        'user_id',
+        'client_id',
+        'invoice_number',
+        'line_items',
+        'message',
+        'tax',
+        'discount',
+        'total',
+        'due_at',
+        'invoiced_at',
+    ];
+
+    protected $casts = [
+        'invoice_number' => 'integer',
+        'line_items' => 'array',
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo(Client::class);
     }
 
-    public function payments() 
+    public function payments()
     {
-        return $this->hasMany('App\Payment');
+        return $this->hasMany(Payment::class);
     }
 
     public function fetchWithRelationships($id = null, $orderBy = 'invoice_number')
@@ -58,5 +73,4 @@ class Invoice extends Model
 
         return $this->fetchWithRelationships($new->id);
     }
-
 }
