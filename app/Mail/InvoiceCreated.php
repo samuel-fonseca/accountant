@@ -14,7 +14,7 @@ class InvoiceCreated extends Mailable
 
     /**
      * Invoice instance
-     * 
+     *
      * @var App\Invoice
      */
     public $invoice;
@@ -41,6 +41,6 @@ class InvoiceCreated extends Mailable
 
     public function createPDF()
     {
-        // 
+        //
     }
 }

@@ -3,14 +3,28 @@
 namespace App;
 
 use App\Traits\UuidPrimaryKey;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    use UuidPrimaryKey;
+    use UuidPrimaryKey, HasFactory;
 
     protected $fillable = [
-        'user_id', 'client_id', 'invoice_number', 'line_items', 'message', 'tax', 'discount', 'total', 'due_at', 'invoiced_at',
+        'user_id',
+        'client_id',
+        'invoice_number',
+        'line_items',
+        'message',
+        'tax',
+        'discount',
+        'total',
+        'due_at',
+        'invoiced_at',
+    ];
+
+    protected $casts = [
+        'line_items' => 'array',
     ];
 
     public function user()
@@ -23,7 +37,7 @@ class Invoice extends Model
         return $this->belongsTo('App\Client');
     }
 
-    public function payments() 
+    public function payments()
     {
         return $this->hasMany('App\Payment');
     }
@@ -58,5 +72,4 @@ class Invoice extends Model
 
         return $this->fetchWithRelationships($new->id);
     }
-
 }

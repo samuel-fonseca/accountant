@@ -35,12 +35,13 @@ class InvoiceController extends Controller
             'total' => 'required'
         ]);
 
-        $invoice = (new Invoice)->insert($request->all());
+        $invoice = Invoice::create($request->validated());
 
-        if ($invoice)
+        if ($invoice) {
             return response()->json($invoice);
-        else
+        } else {
             return response()->json(['message' => 'Could not create invoice at this time.'], 422);
+        }
     }
 
     /**
@@ -84,10 +85,11 @@ class InvoiceController extends Controller
             'due_at' => $request->due_at,
         ];
 
-        if ($invoice->update($data))
+        if ($invoice->update($data)) {
             return response()->json($invoice->load(['client', 'payments']));
-        else
+        } else {
             return response()->json(['message' => 'Could not update the invoice at this time.'], 422);
+        }
     }
 
     /**
@@ -107,12 +109,12 @@ class InvoiceController extends Controller
 
     /**
      * Notify customer of their invoice
-     * 
+     *
      * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function notify($id)
     {
-        // 
+        //
     }
 }
