@@ -32,5 +32,8 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
         <server name="TELESCOPE_ENABLED" value="false"/>
+
+        <!-- <server name="PASSPORT_CLIENT_ID" value="9600dd9f-b05a-4066-9678-6e5a40739012"/>
+        <server name="PASSPORT_CLIENT_SECRET" value="Bq03o5e9tC4bjhlUcQJZr6ILxaHsFq1tvuOmz3G1"/> -->
     </php>
 </phpunit>

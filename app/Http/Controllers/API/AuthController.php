@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     /**
      * Get user account info
-     * 
+     *
      * return Auth::user()
      */
     public function user()
@@ -20,15 +20,16 @@ class AuthController extends Controller
         // get API user
         $user = auth('api')->user();
 
-        if ($user)
+        if ($user) {
             return response($user, 200);
+        }
 
         return response(null, 401);
     }
 
     /**
      * Register new user and grant Access Token
-     * 
+     *
      * @return Response
      */
     public function register(Request $request)
@@ -67,7 +68,6 @@ class AuthController extends Controller
         $http = new \GuzzleHttp\Client;
 
         try {
-
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [
                     'grant_type' => 'password',
@@ -82,9 +82,7 @@ class AuthController extends Controller
             return response()->json(
                 json_decode($response->getBody()->getContents())
             );
-
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-
             $response = json_decode($e->getResponse()->getBody()->getContents());
 
             if ($response) {
@@ -97,7 +95,8 @@ class AuthController extends Controller
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });

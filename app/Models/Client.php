@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Traits\UuidPrimaryKey;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    use UuidPrimaryKey;
+    use UuidPrimaryKey, HasFactory;
 
     protected $fillable = [
         'user_id', 'firstname', 'lastname', 'company', 'phone', 'email', 'address', 'address2', 'city', 'state', 'zip', 'country'
@@ -15,11 +16,11 @@ class Client extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(Invoice::class);
     }
 }

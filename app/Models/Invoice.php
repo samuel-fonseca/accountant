@@ -24,22 +24,23 @@ class Invoice extends Model
     ];
 
     protected $casts = [
+        'invoice_number' => 'integer',
         'line_items' => 'array',
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo(Client::class);
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Payment');
+        return $this->hasMany(Payment::class);
     }
 
     public function fetchWithRelationships($id = null, $orderBy = 'invoice_number')
