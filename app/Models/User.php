@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\UuidPrimaryKey;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -42,21 +42,21 @@ class User extends Authenticatable
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(Invoice::class);
     }
 
     public function clients()
     {
-        return $this->hasMany('App\Client');
+        return $this->hasMany(Client::class);
     }
 
     public function expenses()
     {
-        return $this->hasMany('App\Expense');
+        return $this->hasMany(Expense::class);
     }
 
     public function incomes()
     {
-        return $this->hasMany('App\Income');
+        return $this->hasMany(Income::class);
     }
 }

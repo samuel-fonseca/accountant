@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API;
 
+use App\Client;
 use App\Invoice;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,9 +15,10 @@ class InvoicesTest extends TestCase
     /** @test */
     public function it_gets_invoices()
     {
-        $user = User::factory()->create();
-        // $client = U
-        $invoices = Invoice::factory(5)->for($user)->forClient()->create();
+        $user = User::factory()
+            ->has(Client::factory())
+            ->has(Invoice::factory(5))
+            ->create();
 
         $this->actingAs($user)
             ->json('get', '/api/invoices')
